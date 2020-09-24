@@ -1,14 +1,15 @@
+
 <div class="row">
     <div class="col-xs-12">
         <form>
             <div class="row">
                 <div class="col-sm-5 form-group">
                     <label form="newName">Name</label>
-                    <input type="text" id="newName" class="form-control" [(ngModel)]="newName">
+                    <input type="text" id="newName" name="newName" class="form-control" [(ngModel)]="newName">
                 </div>
                 <div class="col-sm-2 form-group">
                     <label form="newAmount">Amount</label>
-                    <input type="number" id="newAmount" class="form-control" [(ngModel)]="newAmount">
+                    <input type="number" id="newAmount" name="newAmount" class="form-control" [(ngModel)]="newAmount">
                 </div>
             </div>
             <div class="row">
@@ -17,10 +18,7 @@
                     <button class="btn btn-danger" type="button">Delete</button>
                     <button class="btn btn-primary" type="button">Clear</button>
                 </div>
-            </div>
-            <div class="row">                
-                {{ newName }} - {{ newAmount }}
-            </div>
+            </div>            
         </form>
     </div>
 </div>

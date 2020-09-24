@@ -27,8 +27,8 @@ import { FormsModule } from '@angular/forms';
     ShoppingListItemComponent
   ],
   imports: [
-    BrowserModule,
-    FormsModule
+    FormsModule,
+    BrowserModule
   ],
   providers: [],
   bootstrap: [AppComponent]

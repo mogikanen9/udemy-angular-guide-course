@@ -13,13 +13,13 @@ export class ShoppingEditComponent implements OnInit {
   newName = '';
   newAmount = 0;
 
+
   constructor() { }
 
   ngOnInit(): void {
   }
 
   onIngredientAdded(): void {
-    console.log('ShoppingEditComponent#onIngredientAdded...', this.newName, this.newAmount);
     this.ingredientAdded.emit(new Ingredient(this.newName, this.newAmount));
   }
 }
