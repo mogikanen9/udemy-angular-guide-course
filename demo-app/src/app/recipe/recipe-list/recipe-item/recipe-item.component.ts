@@ -1,11 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 
 @Component({
   selector: 'app-recipe-item',
   templateUrl: './recipe-item.component.html',
   styleUrls: ['./recipe-item.component.css']
 })
-export class RecipeItemComponent implements OnInit {
+export class RecipeItemComponent implements OnInit, OnChanges {
 
   @Input() item: {
     name: string;
@@ -13,9 +13,15 @@ export class RecipeItemComponent implements OnInit {
     imagePath: string;
   }
 
-  constructor() { }
+  constructor() {
+    console.log('RecipeItemComponent#constructor');
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log('RecipeItemComponent#changes', changes);
+  }
 
   ngOnInit(): void {
+    console.log('RecipeItemComponent#constructor');
   }
 
 }
