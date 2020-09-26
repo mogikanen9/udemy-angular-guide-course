@@ -1,20 +1,9 @@
+<app-header (menuItemClicked)="setCurrentPage($event)" ></app-header>
 <div class="container">
-  <div class="row">
-    <div class="col-xs-12">
-      <app-header></app-header>
-    </div>
+  <div class="row" *ngIf="showRecipe()">
+    <app-recipe></app-recipe>
   </div>
   <div class="row">
-    <div class="col-md-5">
-      <app-recipe-list></app-recipe-list>
-    </div>
-    <div class="col-md-7">
-      <app-recipe-detail></app-recipe-detail>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-xs-12">
-      <app-shopping></app-shopping>
-    </div>
+    <app-shopping *ngIf="showShoppingList()"></app-shopping>
   </div>
 </div>

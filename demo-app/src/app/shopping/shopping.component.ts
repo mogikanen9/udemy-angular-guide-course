@@ -7,8 +7,6 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ShoppingComponent implements OnInit {
 
-  myText = '';
-
   constructor() { }
 
   ngOnInit(): void {
