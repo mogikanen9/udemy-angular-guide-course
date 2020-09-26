@@ -1,27 +1,27 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Recipe } from '../../recipe.model';
 
 @Component({
   selector: 'app-recipe-item',
   templateUrl: './recipe-item.component.html',
   styleUrls: ['./recipe-item.component.css']
 })
-export class RecipeItemComponent implements OnInit, OnChanges {
+export class RecipeItemComponent implements OnInit {
 
-  @Input() item: {
-    name: string;
-    description: string;
-    imagePath: string;
-  }
+  @Input() item: Recipe;
+  @Output() recipeSelected = new EventEmitter<Recipe>();
 
   constructor() {
     console.log('RecipeItemComponent#constructor');
   }
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log('RecipeItemComponent#changes', changes);
-  }
+
 
   ngOnInit(): void {
     console.log('RecipeItemComponent#constructor');
   }
 
+
+  handleOnClick(event, item): void {
+    this.recipeSelected.emit(item);
+  }
 }
