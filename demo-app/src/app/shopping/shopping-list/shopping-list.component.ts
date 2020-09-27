@@ -6,8 +6,7 @@ import { ShoppingService } from '../shopping.service';
 @Component({
   selector: 'app-shopping-list',
   templateUrl: './shopping-list.component.html',
-  styleUrls: ['./shopping-list.component.css'],
-  providers: [ShoppingService]
+  styleUrls: ['./shopping-list.component.css']
 })
 export class ShoppingListComponent implements OnInit {
 
@@ -16,9 +15,8 @@ export class ShoppingListComponent implements OnInit {
 
   ngOnInit(): void {
     this.ingredients = this.shoppingService.ingredients;
-  }
-
-  onIngredientAdded(newIngedient: Ingredient): void {
-    this.shoppingService.addIngredient(newIngedient);
+    this.shoppingService.ingredientUpdate.subscribe((updatedIngredients: Ingredient[]) => {
+      this.ingredients = updatedIngredients;
+    });
   }
 }
