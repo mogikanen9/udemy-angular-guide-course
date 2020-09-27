@@ -19,7 +19,6 @@ export class ShoppingListComponent implements OnInit {
   }
 
   onIngredientAdded(newIngedient: Ingredient): void {
-    //this.ingredients.push(newIngedient);
     this.shoppingService.addIngredient(newIngedient);
   }
 }
