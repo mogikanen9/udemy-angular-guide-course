@@ -12,12 +12,10 @@ export class RecipeItemComponent implements OnInit {
   @Input() item: Recipe;
 
   constructor(private recipeService: RecipeService) {
-    console.log('RecipeItemComponent#constructor');
   }
 
 
   ngOnInit(): void {
-    console.log('RecipeItemComponent#constructor');
   }
 
 

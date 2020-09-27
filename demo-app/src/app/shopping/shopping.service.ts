@@ -11,9 +11,7 @@ export class ShoppingService {
     constructor(private loggingService: LoggingService) { }
 
     private theIngredients: Ingredient[] = [
-        new Ingredient('Apples', 5),
-        new Ingredient('Tomatoes', 10),
-        new Ingredient('Ketchup', 1)
+        new Ingredient('Salt', 1)
     ];
 
     get ingredients(): Ingredient[] {
