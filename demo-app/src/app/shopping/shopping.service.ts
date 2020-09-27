@@ -27,4 +27,13 @@ export class ShoppingService {
             throw new Error('newIngredient cannot be undefined!');
         }
     }
+
+    addIngredients(newIngedients: Ingredient[]): void {
+        if(this.ingredients){
+            this.theIngredients.push(...newIngedients);
+            this.ingredientUpdate.emit(this.theIngredients.slice());
+        }else {
+            throw new Error('newIngedients cannot be undefined!');
+        }
+    }
 }
