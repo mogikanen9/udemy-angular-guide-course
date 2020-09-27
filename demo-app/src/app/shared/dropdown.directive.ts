@@ -13,6 +13,6 @@ export class DropdownDirective implements OnInit {
     }
 
     @HostListener('click') toggleOpen(): void {
-        this.isOpen = !this.isOpen;     
+        this.isOpen = !this.isOpen;
     }
 }
