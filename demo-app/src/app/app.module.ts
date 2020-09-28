@@ -14,7 +14,15 @@ import { ShoppingListItemComponent } from './shopping/shopping-list/shopping-lis
 import { FormsModule } from '@angular/forms';
 import { DropdownDirective } from './shared/dropdown.directive';
 import { LoggingService } from './shared/logging.service';
-import { ShoppingService } from './shopping/shopping.service';
+import { RouterModule, Routes } from '@angular/router';
+import { HomeComponent } from './home/home.component';
+
+const appRoutes: Routes = [
+  { path: '', component: HomeComponent },
+  { path: 'home', component: HomeComponent },
+  { path: 'recipies', component: RecipeComponent },
+  { path: 'shopping-list', component: ShoppingComponent }
+];
 
 @NgModule({
   declarations: [
@@ -28,11 +36,13 @@ import { ShoppingService } from './shopping/shopping.service';
     RecipeItemComponent,
     ShoppingEditComponent,
     ShoppingListItemComponent,
-    DropdownDirective
+    DropdownDirective,
+    HomeComponent
   ],
   imports: [
     FormsModule,
-    BrowserModule
+    BrowserModule,
+    RouterModule.forRoot(appRoutes)
   ],
   providers: [LoggingService],
   bootstrap: [AppComponent]
