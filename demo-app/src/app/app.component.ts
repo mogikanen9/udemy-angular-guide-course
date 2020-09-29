@@ -10,18 +10,5 @@ import { ShoppingService } from './shopping/shopping.service';
 })
 export class AppComponent {
   title = 'demo-app';
-  currentPage = AppPage.recipe;
-
-  showRecipe(): boolean {
-    return this.currentPage === AppPage.recipe;
-  }
-
-  showShoppingList(): boolean {
-    return this.currentPage === AppPage.shopping_list;
-  }
-
-  setCurrentPage(page: AppPage): void {
-    this.currentPage = page;
-  }
 }
 

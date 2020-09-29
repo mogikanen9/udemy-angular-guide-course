@@ -10,6 +10,8 @@ import { RecipeDetailComponent } from './recipe/recipe-detail/recipe-detail.comp
 import { RecipeItemComponent } from './recipe/recipe-list/recipe-item/recipe-item.component';
 import { RecipeListComponent } from './recipe/recipe-list/recipe-list.component';
 import { RecipeComponent } from './recipe/recipe.component';
+import { AuthGuard } from './shared/auth-guard.service';
+import { AuthService } from './shared/auth.service';
 import { DropdownDirective } from './shared/dropdown.directive';
 import { LoggingService } from './shared/logging.service';
 import { ShoppingEditComponent } from './shopping/shopping-edit/shopping-edit.component';
@@ -41,7 +43,7 @@ import { ShoppingComponent } from './shopping/shopping.component';
     BrowserModule,
     AppRoutingModule
   ],
-  providers: [LoggingService],
+  providers: [LoggingService, AuthGuard, AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
