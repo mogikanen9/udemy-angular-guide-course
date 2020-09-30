@@ -18,6 +18,8 @@ import { ShoppingEditComponent } from './shopping/shopping-edit/shopping-edit.co
 import { ShoppingListItemComponent } from './shopping/shopping-list/shopping-list-item/shopping-list-item.component';
 import { ShoppingListComponent } from './shopping/shopping-list/shopping-list.component';
 import { ShoppingComponent } from './shopping/shopping.component';
+import { ErrorPageComponent } from './error-page/error-page.component';
+import { RecipeStartComponent } from './recipe/recipe-start/recipe-start.component';
 
 
 
@@ -36,7 +38,9 @@ import { ShoppingComponent } from './shopping/shopping.component';
     ShoppingListItemComponent,
     DropdownDirective,
     HomeComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    ErrorPageComponent,    
+    RecipeStartComponent
   ],
   imports: [
     FormsModule,
