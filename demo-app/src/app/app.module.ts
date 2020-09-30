@@ -20,6 +20,7 @@ import { ShoppingListComponent } from './shopping/shopping-list/shopping-list.co
 import { ShoppingComponent } from './shopping/shopping.component';
 import { ErrorPageComponent } from './error-page/error-page.component';
 import { RecipeStartComponent } from './recipe/recipe-start/recipe-start.component';
+import { RecipeEditComponent } from './recipe/recipe-edit/recipe-edit.component';
 
 
 
@@ -39,8 +40,9 @@ import { RecipeStartComponent } from './recipe/recipe-start/recipe-start.compone
     DropdownDirective,
     HomeComponent,
     PageNotFoundComponent,
-    ErrorPageComponent,    
-    RecipeStartComponent
+    ErrorPageComponent,
+    RecipeStartComponent, 
+    RecipeEditComponent
   ],
   imports: [
     FormsModule,

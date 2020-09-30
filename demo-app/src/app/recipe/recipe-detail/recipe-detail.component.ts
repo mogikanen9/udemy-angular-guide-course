@@ -31,4 +31,8 @@ export class RecipeDetailComponent implements OnInit {
       throw new Error('Recipe is empty/null/undefined!');
     }
   }
+
+  onEditRecipeClick(): void {
+    this.router.navigate(['edit'], { relativeTo: this.activeRoute });
+  }
 }

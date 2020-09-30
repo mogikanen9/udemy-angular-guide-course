@@ -9,6 +9,5 @@ import { ShoppingService } from './shopping/shopping.service';
   providers: [ShoppingService]
 })
 export class AppComponent {
-  title = 'demo-app';
 }
 

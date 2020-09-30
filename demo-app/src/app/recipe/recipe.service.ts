@@ -1,4 +1,5 @@
-import { EventEmitter, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 import { Ingredient } from '../shared/ingredient.model';
 import { ShoppingService } from '../shopping/shopping.service';
 import { Recipe } from './recipe.model';
@@ -23,8 +24,6 @@ export class RecipeService {
             ])
     ];
 
-    recepeSelected = new EventEmitter<Recipe>();
-
 
     constructor(private shoppingService: ShoppingService) { }
 
@@ -46,7 +45,7 @@ export class RecipeService {
 
     getRecipeById(id: string): Recipe {
         const rs = this.theRecipes.filter((recipe) => recipe.rid === id);
-        if(rs.length > 0){
+        if (rs.length > 0) {
             return Object.assign(rs[0]);
         } else {
             throw new Error(`Recipe with id ${id} was not found!`);
