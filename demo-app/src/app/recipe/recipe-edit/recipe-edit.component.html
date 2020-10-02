@@ -1,2 +1,28 @@
-<p>recipe-edit works!</p>
-<p>Edit Mode -> {{ editMode }}</p>
+<div class="row">
+    <p>recipe-edit works!</p>
+    <p>Edit Mode -> {{ editMode }}</p>
+    <div>
+        <form  (ngSubmit)="onSubmit()" #f="ngForm" >
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" class="form-control" id="name" 
+                        ngModel
+                        name="name" required #name="ngModel">
+                <span class="help-block" *ngIf="!name.valid && name.touched">Please, provide a valid name!</span>
+            </div>
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <input type="text" class="form-control" id="description" ngModel name="description" required>
+            </div>
+            <div class="form-group">
+                <label for="imgPath">Description:</label>
+                <input type="text" class="form-control" id="imgPath" ngModel name="imgPath">
+            </div>
+            <button 
+                type="submit" 
+                class="btn btn-primary"
+                [disabled]="!f.valid"
+                >Submit</button>
+        </form>
+    </div>
+</div>

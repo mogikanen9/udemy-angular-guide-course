@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ErrorPageComponent } from './error-page/error-page.component';
 import { HomeComponent } from './home/home.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { ProjectComponent } from './project/project.component';
 import { RecipeDetailComponent } from './recipe/recipe-detail/recipe-detail.component';
 import { RecipeEditComponent } from './recipe/recipe-edit/recipe-edit.component';
 import { RecipeStartComponent } from './recipe/recipe-start/recipe-start.component';
@@ -23,6 +24,7 @@ const appRoutes: Routes = [
         ]
     },
     { path: 'shopping-list', component: ShoppingComponent, canActivate: [AuthGuard] },
+    { path: 'project', component: ProjectComponent},
     { path: '404', component: PageNotFoundComponent },
     {
         path: '500', component: ErrorPageComponent,

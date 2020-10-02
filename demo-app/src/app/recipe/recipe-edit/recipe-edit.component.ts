@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
 
 @Component({
@@ -10,6 +11,7 @@ export class RecipeEditComponent implements OnInit {
 
   id: string;
   editMode = false;
+  @ViewChild('f') editForm: NgForm;
 
   constructor(private activeRoute: ActivatedRoute) { }
 
@@ -17,7 +19,11 @@ export class RecipeEditComponent implements OnInit {
     this.activeRoute.params.subscribe((params: Params) => {
       this.id = params['id'];
       this.editMode = this.id !== undefined;
-    });
+    });    
   }
 
+  onSubmit(): void {
+    console.log('form->', this.editForm);
+    this.editForm.form.patchValue({name: 'def name 23'});
+  }
 }

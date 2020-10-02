@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -21,6 +21,7 @@ import { ShoppingComponent } from './shopping/shopping.component';
 import { ErrorPageComponent } from './error-page/error-page.component';
 import { RecipeStartComponent } from './recipe/recipe-start/recipe-start.component';
 import { RecipeEditComponent } from './recipe/recipe-edit/recipe-edit.component';
+import { ProjectComponent } from './project/project.component';
 
 
 
@@ -42,10 +43,11 @@ import { RecipeEditComponent } from './recipe/recipe-edit/recipe-edit.component'
     PageNotFoundComponent,
     ErrorPageComponent,
     RecipeStartComponent, 
-    RecipeEditComponent
+    RecipeEditComponent, ProjectComponent
   ],
   imports: [
     FormsModule,
+    ReactiveFormsModule,
     BrowserModule,
     AppRoutingModule
   ],
