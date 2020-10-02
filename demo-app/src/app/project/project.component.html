@@ -14,15 +14,30 @@
                 <input type="text" class="form-control" id="name" name="name" formControlName="name">
                 <div *ngIf="!projectForm.get('name').valid && projectForm.get('name').touched"
                     class="alert alert-danger" role="alert">Invalid name.
-                    Minimum 2 symbols!</div>
+                    Minimum 2 symbols! Cannot have value 'Test'!</div>
             </div>
             <div class="form-group">
                 <label for="email">Email:</label>
                 <input type="text" class="form-control" id="email" name="email" formControlName="email">
-                <div *ngIf="!projectForm.get('email').valid && projectForm.get('email').touched" class="alert alert-danger" role="alert">Invalid email
+                <div *ngIf="!projectForm.get('email').valid && projectForm.get('email').touched"
+                    class="alert alert-danger" role="alert">Invalid email
                     address!</div>
             </div>
-            <!--Status-->
+            <div class="form-group">
+                <label for="status">Status:</label>
+                <select name="status" id="status" class="form-control" formControlName="status">
+                    <option *ngFor="let status of projectStatuses" [value]="status.key">{{ status.value }}</option>
+                </select>
+            </div>
+            <div formArrayName="myquestions">
+                <button class="btn" (click)="addQuestion()">Add question</button>
+                <div class="form-group" *ngFor="let myq of myquestions.controls ; let i = index ">                                      
+                    <label>
+                        {{ questionValues[i] }}:
+                        <input type="text" class="form-control" [formControlName]="i">
+                      </label>
+                </div>
+            </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>
