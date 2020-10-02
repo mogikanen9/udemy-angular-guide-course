@@ -19,6 +19,12 @@ export class ShoppingEditComponent implements OnInit {
   constructor(private shoppingService: ShoppingService) { }
 
   ngOnInit(): void {
+    this.shoppingService.startedEditing.subscribe((item) => {
+      this.shoppingForm.form.patchValue({
+        newName: item.name,
+        newAmount: item.amount
+      });
+    });
   }
 
   onSubmit(): void {
@@ -34,5 +40,13 @@ export class ShoppingEditComponent implements OnInit {
       newName: '',
       newAmount: ''
     });
+  }
+
+  onDelete(): void {
+    const newName = this.shoppingForm.form.value.newName;
+    const newAmount = this.shoppingForm.form.value.newAmount;
+    this.shoppingService.deleteItem({ name: newName, amount: newAmount });
+
+    this.onClear();
   }
 }

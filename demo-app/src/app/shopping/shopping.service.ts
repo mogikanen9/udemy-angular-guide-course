@@ -8,6 +8,7 @@ import { Injectable } from '@angular/core';
 export class ShoppingService {
 
     ingredientUpdate = new Subject<Ingredient[]>();
+    startedEditing = new Subject<Ingredient>();
 
     constructor(private loggingService: LoggingService) { }
 
@@ -35,6 +36,18 @@ export class ShoppingService {
             this.ingredientUpdate.next(this.theIngredients.slice());
         } else {
             throw new Error('newIngedients cannot be undefined!');
+        }
+    }
+
+    markStartEditing(item: Ingredient): void {
+        this.startedEditing.next(item);
+    }
+
+    deleteItem(item: Ingredient): void {
+        const idx = this.theIngredients.map((e) => e.name).indexOf(item.name);
+        if (idx >= 0) {
+            this.theIngredients.splice(idx, 1);
+            this.ingredientUpdate.next(this.theIngredients.slice());
         }
     }
 }

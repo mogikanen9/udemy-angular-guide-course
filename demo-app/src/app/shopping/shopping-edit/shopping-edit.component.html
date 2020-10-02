@@ -9,7 +9,9 @@
                 </div>
                 <div class="col-sm-2 form-group">
                     <label form="newAmount">Amount</label>
-                    <input type="number" id="newAmount" name="newAmount" class="form-control" ngModel required>
+                    <input type="number" id="newAmount" name="newAmount" class="form-control" ngModel 
+                    required
+                    pattern="^[1-0]+[0=0]">
                 </div>
             </div>
             <div class="row">
@@ -19,10 +21,12 @@
                         type="submit"
                         [disabled]="!sf.valid"
                         >Add</button>
-                    <button class="btn btn-danger" type="button">Delete</button>
+                    <button class="btn btn-danger" 
+                            type="button"
+                            (click)="onDelete()">Delete</button>
                     <button 
                         class="btn btn-primary" 
-                        type="button"
+                        type="button"                        
                         (click)="onClear()">Clear</button>
                 </div>
             </div>            
