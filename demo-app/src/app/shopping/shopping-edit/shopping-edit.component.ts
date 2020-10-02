@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { Ingredient } from '../../shared/ingredient.model';
 import { LoggingService } from '../../shared/logging.service';
 import { ShoppingService } from '../shopping.service';
@@ -13,16 +14,25 @@ import { ShoppingService } from '../shopping.service';
 })
 export class ShoppingEditComponent implements OnInit {
 
-  newName = '';
-  newAmount = 0;
-
+  @ViewChild('sf') shoppingForm: NgForm;
 
   constructor(private shoppingService: ShoppingService) { }
 
   ngOnInit(): void {
   }
 
-  onIngredientAdded(): void {
-    this.shoppingService.addIngredient(new Ingredient(this.newName, this.newAmount));
+  onSubmit(): void {
+    if (this.shoppingForm.valid) {
+      const newName = this.shoppingForm.form.value.newName;
+      const newAmount = this.shoppingForm.form.value.newAmount;
+      this.shoppingService.addIngredient(new Ingredient(newName, newAmount));
+    }
+  }
+
+  onClear(): void {
+    this.shoppingForm.form.patchValue({
+      newName: '',
+      newAmount: ''
+    });
   }
 }
