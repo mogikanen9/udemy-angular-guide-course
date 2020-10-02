@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-project',
@@ -14,12 +14,12 @@ export class ProjectComponent implements OnInit {
 
   ngOnInit(): void {
     this.projectForm = new FormGroup({
-      'name': new FormControl('Please, provide name'),
-      'email': new FormControl(null)
+      'name': new FormControl('Please, provide name', [Validators.required, Validators.min(2)]),
+      'email': new FormControl(null, [Validators.required, Validators.email])
     });
   }
 
   onSubmit(): void {
-    console.log('this.projectForm.value->',this.projectForm.value);
+    console.log('this.projectForm.value->', this.projectForm.value);
   }
 }
