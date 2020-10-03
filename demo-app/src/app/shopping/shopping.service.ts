@@ -48,6 +48,18 @@ export class ShoppingService {
         if (idx >= 0) {
             this.theIngredients.splice(idx, 1);
             this.ingredientUpdate.next(this.theIngredients.slice());
+        } else {
+            throw new Error(`Ingredient with name '${item.name}' was not found to be deleted!`);
+        }
+    }
+
+    updateItem(oldItem: Ingredient, newItem: Ingredient): void {
+        const idx = this.theIngredients.map((e) => e.name).indexOf(oldItem.name);
+        if (idx >= 0) {
+            this.theIngredients[idx] = newItem;
+            this.ingredientUpdate.next(this.theIngredients.slice());
+        } else {
+            throw new Error(`Ingredient with name '${oldItem.name}' was not found to be udpated!`);
         }
     }
 }
