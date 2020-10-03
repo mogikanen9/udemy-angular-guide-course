@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
 
 @Component({
@@ -11,20 +11,26 @@ export class RecipeEditComponent implements OnInit {
 
   id: string;
   editMode = false;
-  @ViewChild('f') editForm: NgForm;
+  recipeForm: FormGroup;
 
   constructor(private activeRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
+
+    this.recipeForm = new FormGroup({
+      'name': new FormControl(null, Validators.required),
+      'description': new FormControl(null, Validators.required),
+      'imgPath': new FormControl(null, Validators.required)
+    });
+
     this.activeRoute.params.subscribe((params: Params) => {
       this.id = params['id'];
       this.editMode = this.id !== undefined;
-    });    
+    });
   }
 
   onSubmit(): void {
-    console.log('form->', this.editForm);
-    this.editForm.form.patchValue({name: 'def name 23'});
+    console.log('form->', this.recipeForm);
   }
 
 }
