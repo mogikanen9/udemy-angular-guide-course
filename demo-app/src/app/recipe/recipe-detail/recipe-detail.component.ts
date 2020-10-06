@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Recipe } from '../recipe.model';
 import { RecipeService } from '../recipe.service';
@@ -26,7 +26,7 @@ export class RecipeDetailComponent implements OnInit {
   addToShoppingList(): void {
     if (this.recipe) {
       this.recipeService.addIngredientsToShoppingList(this.recipe.ingredients);
-      this.router.navigate(['/shopping-list']);
+      //this.router.navigate(['/shopping-list']);
     } else {
       throw new Error('Recipe is empty/null/undefined!');
     }
@@ -34,5 +34,12 @@ export class RecipeDetailComponent implements OnInit {
 
   onEditRecipeClick(): void {
     this.router.navigate(['edit'], { relativeTo: this.activeRoute });
+  }
+
+  onDeleteRecipeClick(): void {
+    if (this.recipe) {
+      this.recipeService.deleteRecipe(this.recipe);
+      this.router.navigate(['/recipes']);
+    }
   }
 }

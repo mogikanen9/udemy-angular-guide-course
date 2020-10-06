@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Ingredient } from 'src/app/shared/ingredient.model';
 import { Recipe } from '../recipe.model';
 import { RecipeService } from '../recipe.service';
@@ -16,7 +16,7 @@ export class RecipeEditComponent implements OnInit {
   editMode = false;
   recipeForm: FormGroup;
 
-  constructor(private activeRoute: ActivatedRoute, private recipeService: RecipeService) { }
+  constructor(private activeRoute: ActivatedRoute, private recipeService: RecipeService, private router: Router) { }
 
   ngOnInit(): void {
 
@@ -93,9 +93,17 @@ export class RecipeEditComponent implements OnInit {
 
     if (this.editMode) {
       this.recipeService.updateRecipe(new Recipe(this.id, name, description, imgPath, ingredients));
+      this.router.navigate(['/recipes', this.id]);
     } else {
       this.recipeService.addRecipe(new Recipe(this.recipeService.genNewRecupeId(), name, description, imgPath, ingredients));
+      this.router.navigate(['/recipes']);
     }
 
+
+  }
+
+  onCancel(): void {
+    this.recipeForm.reset();
+    this.router.navigate(['../', this.activeRoute]);
   }
 }

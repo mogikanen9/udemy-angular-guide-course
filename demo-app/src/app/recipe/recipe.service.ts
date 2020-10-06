@@ -69,4 +69,14 @@ export class RecipeService {
     genNewRecupeId(): string {
         return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
     }
+
+    deleteRecipe(recipe: Recipe): void {
+        const idx = this.theRecipes.map((e) => e.rid).indexOf(recipe.rid);
+        if (idx >= 0) {
+            this.theRecipes.splice(idx, 1);
+            this.recipeUpdates.next(this.recipes);
+        } else {
+            throw new Error(`Recipe with id '${recipe.rid}' was not found to be deleted!`);
+        }
+    }
 }
