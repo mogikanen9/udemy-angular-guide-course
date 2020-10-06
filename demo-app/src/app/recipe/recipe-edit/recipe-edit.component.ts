@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
+import { Ingredient } from 'src/app/shared/ingredient.model';
+import { Recipe } from '../recipe.model';
 import { RecipeService } from '../recipe.service';
 
 @Component({
@@ -45,10 +47,10 @@ export class RecipeEditComponent implements OnInit {
       imgPath = recipeToEdit.imagePath;
       if (recipeToEdit.ingredients && recipeToEdit.ingredients.length > 0) {
 
-        recipeToEdit.ingredients.forEach((ing) => {          
+        recipeToEdit.ingredients.forEach((ing) => {
           recipeIngredients.push(new FormGroup({
-            'name': new FormControl(ing.name),
-            'amount': new FormControl(ing.amount)
+            'name': new FormControl(ing.name, Validators.required),
+            'amount': new FormControl(ing.amount, [Validators.required, Validators.pattern(/^[1-9]+[0-9]*$/)])
           }));
         });
       }
@@ -62,8 +64,38 @@ export class RecipeEditComponent implements OnInit {
     });
   }
 
-  onSubmit(): void {
-    console.log('form->', this.recipeForm);
+  onAddIngredient(): void {
+    (this.recipeForm.get('ingredients') as FormArray).push(new FormGroup({
+      'name': new FormControl(null, Validators.required),
+      'amount': new FormControl(null, [Validators.required, Validators.pattern(/^[1-9]+[0-9]*$/)])
+    }));
   }
 
+  onRemoveIngredient(i: number): void {
+    (this.recipeForm.get('ingredients') as FormArray).removeAt(i);
+  }
+
+  onSubmit(): void {
+
+    const name = this.recipeForm.get('name').value;
+
+    const description = this.recipeForm.get('desc').value;
+
+    const imgPath = this.recipeForm.get('imgPath').value;
+
+    const ingredients = new Array<Ingredient>();
+
+    (this.recipeForm.get('ingredients') as FormArray).controls.map((formGroup: FormGroup) => {
+      const nameValue = formGroup.get('name').value;
+      const amountValue = formGroup.get('amount').value;
+      return new Ingredient(nameValue, amountValue);
+    }).forEach((ingItem) => ingredients.push(ingItem));
+
+    if (this.editMode) {
+      this.recipeService.updateRecipe(new Recipe(this.id, name, description, imgPath, ingredients));
+    } else {
+      this.recipeService.addRecipe(new Recipe(this.recipeService.genNewRecupeId(), name, description, imgPath, ingredients));
+    }
+
+  }
 }

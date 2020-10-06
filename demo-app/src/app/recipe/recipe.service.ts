@@ -24,6 +24,7 @@ export class RecipeService {
             ])
     ];
 
+    recipeUpdates = new Subject<Recipe[]>();
 
     constructor(private shoppingService: ShoppingService) { }
 
@@ -32,10 +33,12 @@ export class RecipeService {
     }
 
     addRecipe(newRecipe: Recipe): void {
-        if (newRecipe) {
-            this.theRecipes.push(newRecipe);
+
+        if (newRecipe && newRecipe.rid) {
+            this.theRecipes.push(Object.assign(newRecipe));
+            this.recipeUpdates.next(this.recipes);
         } else {
-            throw new Error('newRecipe cannot be undefined!');
+            throw new Error('newRecipe or newRecipe.rid cannot be undefined!');
         }
     }
 
@@ -48,7 +51,22 @@ export class RecipeService {
         if (rs.length > 0) {
             return Object.assign(rs[0]);
         } else {
-            throw new Error(`Recipe with id ${id} was not found!`);
+            throw new Error(`getRecipeById. Recipe with id ${id} was not found!`);
         }
+    }
+
+    updateRecipe(updatedRecipe: Recipe): void {
+        const index = this.theRecipes.findIndex((rcp) => rcp.rid === updatedRecipe.rid);
+        console.log('index->', index);
+        if (index !== -1) {
+            this.theRecipes[index] = Object.assign(updatedRecipe);
+            this.recipeUpdates.next(this.recipes);
+        } else {
+            throw new Error(`updateRecipe. Recipe with id ${updatedRecipe.rid} was not found!`);
+        }
+    }
+
+    genNewRecupeId(): string {
+        return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
     }
 }
