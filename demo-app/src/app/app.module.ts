@@ -22,6 +22,7 @@ import { ErrorPageComponent } from './error-page/error-page.component';
 import { RecipeStartComponent } from './recipe/recipe-start/recipe-start.component';
 import { RecipeEditComponent } from './recipe/recipe-edit/recipe-edit.component';
 import { ProjectComponent } from './project/project.component';
+import { PrettyHeaderPipe } from './shared/pretty-header.pipe';
 
 
 
@@ -43,7 +44,7 @@ import { ProjectComponent } from './project/project.component';
     PageNotFoundComponent,
     ErrorPageComponent,
     RecipeStartComponent, 
-    RecipeEditComponent, ProjectComponent
+    RecipeEditComponent, ProjectComponent, PrettyHeaderPipe
   ],
   imports: [
     FormsModule,
