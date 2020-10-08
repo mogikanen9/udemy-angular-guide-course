@@ -23,7 +23,7 @@ import { RecipeStartComponent } from './recipe/recipe-start/recipe-start.compone
 import { RecipeEditComponent } from './recipe/recipe-edit/recipe-edit.component';
 import { ProjectComponent } from './project/project.component';
 import { PrettyHeaderPipe } from './shared/pretty-header.pipe';
-
+import { HttpClientModule } from '@angular/common/http';
 
 
 
@@ -43,13 +43,14 @@ import { PrettyHeaderPipe } from './shared/pretty-header.pipe';
     HomeComponent,
     PageNotFoundComponent,
     ErrorPageComponent,
-    RecipeStartComponent, 
+    RecipeStartComponent,
     RecipeEditComponent, ProjectComponent, PrettyHeaderPipe
   ],
   imports: [
     FormsModule,
     ReactiveFormsModule,
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule
   ],
   providers: [LoggingService, AuthGuard, AuthService],

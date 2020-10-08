@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
 import { Ingredient } from '../shared/ingredient.model';
 import { ShoppingService } from '../shopping/shopping.service';
 import { Recipe } from './recipe.model';
+import { Subject } from 'rxjs';
 
 @Injectable()
 export class RecipeService {
@@ -35,6 +35,7 @@ export class RecipeService {
     addRecipe(newRecipe: Recipe): void {
 
         if (newRecipe && newRecipe.rid) {
+
             this.theRecipes.push(Object.assign(newRecipe));
             this.recipeUpdates.next(this.recipes);
         } else {
@@ -78,5 +79,11 @@ export class RecipeService {
         } else {
             throw new Error(`Recipe with id '${recipe.rid}' was not found to be deleted!`);
         }
+    }
+
+    updateAllRecipes(recipes: Recipe[]): void {
+        this.theRecipes = recipes;
+        this.recipeUpdates.next(this.recipes);
+
     }
 }
