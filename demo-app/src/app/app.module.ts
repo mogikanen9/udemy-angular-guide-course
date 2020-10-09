@@ -24,6 +24,10 @@ import { RecipeEditComponent } from './recipe/recipe-edit/recipe-edit.component'
 import { ProjectComponent } from './project/project.component';
 import { PrettyHeaderPipe } from './shared/pretty-header.pipe';
 import { HttpClientModule } from '@angular/common/http';
+import { RecipeResolverService } from './recipe/recipe-resolver.service';
+import { DataStorageService } from './shared/data-storage.service';
+import { RecipeService } from './recipe/recipe.service';
+import { ShoppingService } from './shopping/shopping.service';
 
 
 
@@ -53,7 +57,7 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule,
     AppRoutingModule
   ],
-  providers: [LoggingService, AuthGuard, AuthService],
+  providers: [LoggingService, AuthGuard, AuthService, ShoppingService, RecipeService, DataStorageService, RecipeResolverService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

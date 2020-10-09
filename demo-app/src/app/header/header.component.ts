@@ -14,7 +14,7 @@ export class HeaderComponent implements OnInit {
   }
 
   onFetchClick(): void {
-    this.dataStorageService.fetchRecipes();
+    this.dataStorageService.fetchRecipes().subscribe();
   }
 
   onSaveClick(): void {

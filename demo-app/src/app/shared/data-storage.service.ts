@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { Recipe } from '../recipe/recipe.model';
 import { RecipeService } from '../recipe/recipe.service';
 
@@ -22,18 +22,23 @@ export class DataStorageService {
             });
     }
 
-    fetchRecipes(): void {
-        this.http.get<{ [key: string]: Recipe }>(RECIPES_API_URL)
+    fetchRecipes(): Observable<Recipe[]> {
+        return this.http.get<Recipe[]>(RECIPES_API_URL)
             .pipe(map((respData) => {
                 const recepeArray: Recipe[] = [];
                 for (const key in respData) {
                     if (respData.hasOwnProperty(key)) {
-                        recepeArray.push({ ...respData[key], rid: key });
+                        const recipe = respData[key];
+                        recepeArray.push({ ...recipe, rid: key, ingredients: recipe.ingredients ? recipe.ingredients : [] });
                     }
                 }
                 return recepeArray;
-            })).subscribe((recipes) => {
+            }), tap((recipes) => {
                 this.recipeService.updateAllRecipes(recipes);
-            });
+            })
+            )/* .subscribe((recipes) => {
+                this.recipeService.updateAllRecipes(recipes);
+            }) */
+            ;
     }
 }

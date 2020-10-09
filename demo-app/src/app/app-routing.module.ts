@@ -6,6 +6,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { ProjectComponent } from './project/project.component';
 import { RecipeDetailComponent } from './recipe/recipe-detail/recipe-detail.component';
 import { RecipeEditComponent } from './recipe/recipe-edit/recipe-edit.component';
+import { RecipeResolverService } from './recipe/recipe-resolver.service';
 import { RecipeStartComponent } from './recipe/recipe-start/recipe-start.component';
 import { RecipeComponent } from './recipe/recipe.component';
 import { AuthGuard } from './shared/auth-guard.service';
@@ -17,10 +18,10 @@ const appRoutes: Routes = [
     {
         path: 'recipes', component: RecipeComponent,
         children: [
-            { path: '', component: RecipeStartComponent },
+            { path: '', component: RecipeStartComponent, resolve: [RecipeResolverService] },
             { path: 'new', component: RecipeEditComponent },
-            { path: ':id/edit', component: RecipeEditComponent },
-            { path: ':id', component: RecipeDetailComponent }            
+            { path: ':id/edit', component: RecipeEditComponent, resolve: [RecipeResolverService]},
+            { path: ':id', component: RecipeDetailComponent, resolve: [RecipeResolverService] }
         ]
     },
     { path: 'shopping-list', component: ShoppingComponent, canActivate: [AuthGuard] },
