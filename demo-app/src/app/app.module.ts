@@ -28,6 +28,8 @@ import { RecipeResolverService } from './recipe/recipe-resolver.service';
 import { DataStorageService } from './shared/data-storage.service';
 import { RecipeService } from './recipe/recipe.service';
 import { ShoppingService } from './shopping/shopping.service';
+import { AuthComponent } from './auth/auth.component';
+import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinner/loading-spinner.component';
 
 
 
@@ -48,7 +50,7 @@ import { ShoppingService } from './shopping/shopping.service';
     PageNotFoundComponent,
     ErrorPageComponent,
     RecipeStartComponent,
-    RecipeEditComponent, ProjectComponent, PrettyHeaderPipe
+    RecipeEditComponent, ProjectComponent, PrettyHeaderPipe, AuthComponent, LoadingSpinnerComponent
   ],
   imports: [
     FormsModule,

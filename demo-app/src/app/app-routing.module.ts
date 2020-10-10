@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthComponent } from './auth/auth.component';
 import { ErrorPageComponent } from './error-page/error-page.component';
 import { HomeComponent } from './home/home.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
@@ -26,6 +27,7 @@ const appRoutes: Routes = [
     },
     { path: 'shopping-list', component: ShoppingComponent, canActivate: [AuthGuard] },
     { path: 'project', component: ProjectComponent},
+    { path: 'auth', component: AuthComponent},
     { path: '404', component: PageNotFoundComponent },
     {
         path: '500', component: ErrorPageComponent,

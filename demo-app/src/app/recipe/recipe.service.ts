@@ -83,7 +83,7 @@ export class RecipeService {
     }
 
     updateAllRecipes(recipes: Recipe[]): void {
-        console.log('updateAllRecipes called, recipes->',recipes);
+        console.log('updateAllRecipes called, recipes->', recipes);
         this.theRecipes = recipes;
         this.recipeUpdates.next(this.recipes);
 
