@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { AuthService } from '../shared/auth.service';
-import { AuthSignUpResponse } from './auth.model';
+import { Observable } from 'rxjs';
+import { AuthResponse } from './auth.model';
 import { MyAuthService } from './auth.service';
 
 @Component({
@@ -34,21 +34,28 @@ export class AuthComponent implements OnInit {
     const pwdValue = value.pwd;
 
     this.isLoading = true;
+    this.error = null;
+
+    let operation: Observable<AuthResponse>;
 
     if (this.isLoginMode) {
-      //login
+      operation = this.authService.signIn({ email: emailValue, password: pwdValue, returnSecureToken: true });
     } else {
-
-      this.authService.signUp({ email: emailValue, password: pwdValue, returnSecureToken: true }).subscribe(
-        (resp: AuthSignUpResponse) => {
-          console.log('resp->', resp);
-          console.log('idTOken->', resp.idToken);
-          this.isLoading = false;
-        }, (error) => {          
-          this.isLoading = false;
-          this.error = 'An error occured';
-        });
+      operation = this.authService.signUp({ email: emailValue, password: pwdValue, returnSecureToken: true });
     }
+
+    operation.subscribe(
+      (resp: AuthResponse) => {
+        console.log('resp->', resp);
+        console.log('idTOken->', resp.idToken);
+        this.isLoading = false;
+      }, (errorMessage) => {
+        this.error = errorMessage;
+        this.isLoading = false;
+
+      });
+
     authForm.reset();
   }
+
 }
