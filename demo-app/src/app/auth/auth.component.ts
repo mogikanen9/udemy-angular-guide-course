@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { LoggingService } from '../shared/logging.service';
 import { AuthResponse } from './auth.model';
 import { MyAuthService } from './auth.service';
 
@@ -15,7 +17,7 @@ export class AuthComponent implements OnInit {
   isLoading = false;
   error: string = null;
 
-  constructor(private authService: MyAuthService) { }
+  constructor(private authService: MyAuthService, private router: Router, private loggingService: LoggingService) { }
 
   ngOnInit(): void {
   }
@@ -26,7 +28,7 @@ export class AuthComponent implements OnInit {
 
   onSubmit(authForm: NgForm): void {
     if (!authForm.valid) {
-      console.log('Auth Form is invalid');
+      this.loggingService.debug('Auth Form is invalid');
       return;
     }
     const value = authForm.form.value;
@@ -46,9 +48,9 @@ export class AuthComponent implements OnInit {
 
     operation.subscribe(
       (resp: AuthResponse) => {
-        console.log('resp->', resp);
-        console.log('idTOken->', resp.idToken);
+        this.loggingService.debug('resp->', resp);
         this.isLoading = false;
+        this.router.navigate(['/recipes']);
       }, (errorMessage) => {
         this.error = errorMessage;
         this.isLoading = false;

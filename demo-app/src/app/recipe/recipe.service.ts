@@ -3,6 +3,7 @@ import { Ingredient } from '../shared/ingredient.model';
 import { ShoppingService } from '../shopping/shopping.service';
 import { Recipe } from './recipe.model';
 import { Subject } from 'rxjs';
+import { LoggingService } from '../shared/logging.service';
 
 @Injectable()
 export class RecipeService {
@@ -27,7 +28,7 @@ export class RecipeService {
  */
     recipeUpdates = new Subject<Recipe[]>();
 
-    constructor(private shoppingService: ShoppingService) { }
+    constructor(private shoppingService: ShoppingService, private loggingService: LoggingService) { }
 
     get recipes(): Recipe[] {
         return this.theRecipes.slice();
@@ -59,7 +60,6 @@ export class RecipeService {
 
     updateRecipe(updatedRecipe: Recipe): void {
         const index = this.theRecipes.findIndex((rcp) => rcp.rid === updatedRecipe.rid);
-        console.log('index->', index);
         if (index !== -1) {
             this.theRecipes[index] = Object.assign(updatedRecipe);
             this.recipeUpdates.next(this.recipes);
@@ -83,7 +83,7 @@ export class RecipeService {
     }
 
     updateAllRecipes(recipes: Recipe[]): void {
-        console.log('updateAllRecipes called, recipes->', recipes);
+        this.loggingService.debug('updateAllRecipes called, recipes->', recipes);
         this.theRecipes = recipes;
         this.recipeUpdates.next(this.recipes);
 

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
+import { LoggingService } from '../shared/logging.service';
 
 @Component({
   selector: 'app-project',
@@ -17,14 +18,14 @@ export class ProjectComponent implements OnInit {
 
   questionValues = ['How old are you?', 'What is you place fo birth?', 'What is your name?'];
 
-  constructor() { }
+  constructor(private loggingService: LoggingService) { }
 
   ngOnInit(): void {
     this.projectForm = new FormGroup({
       'name': new FormControl(null, [Validators.required, Validators.min(2)], [this.forbiddenProjectName]),
       'email': new FormControl(null, [Validators.required, Validators.email]),
       'status': new FormControl('in-progress'),
-      'questions': new FormArray([ new FormControl(null)])
+      'questions': new FormArray([new FormControl(null)])
     });
   }
 
@@ -33,7 +34,7 @@ export class ProjectComponent implements OnInit {
   }
 
   onSubmit(): void {
-    console.log('this.projectForm.value->', this.projectForm.value);
+    this.loggingService.debug('this.projectForm.value->', this.projectForm.value);    
   }
 
   forbiddenProjectName(control: FormControl): Promise<any> | Observable<any> {

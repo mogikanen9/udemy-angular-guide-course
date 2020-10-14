@@ -10,8 +10,8 @@ import { RecipeDetailComponent } from './recipe/recipe-detail/recipe-detail.comp
 import { RecipeItemComponent } from './recipe/recipe-list/recipe-item/recipe-item.component';
 import { RecipeListComponent } from './recipe/recipe-list/recipe-list.component';
 import { RecipeComponent } from './recipe/recipe.component';
-import { AuthGuard } from './shared/auth-guard.service';
-import { AuthService } from './shared/auth.service';
+import { AuthGuard } from './auth/auth-guard.service';
+import { MyAuthService } from './auth/auth.service';
 import { DropdownDirective } from './shared/dropdown.directive';
 import { LoggingService } from './shared/logging.service';
 import { ShoppingEditComponent } from './shopping/shopping-edit/shopping-edit.component';
@@ -23,13 +23,14 @@ import { RecipeStartComponent } from './recipe/recipe-start/recipe-start.compone
 import { RecipeEditComponent } from './recipe/recipe-edit/recipe-edit.component';
 import { ProjectComponent } from './project/project.component';
 import { PrettyHeaderPipe } from './shared/pretty-header.pipe';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RecipeResolverService } from './recipe/recipe-resolver.service';
 import { DataStorageService } from './shared/data-storage.service';
 import { RecipeService } from './recipe/recipe.service';
 import { ShoppingService } from './shopping/shopping.service';
 import { AuthComponent } from './auth/auth.component';
 import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinner/loading-spinner.component';
+import { AuthInterceptorService } from './auth/auth-interceptor.service';
 
 
 
@@ -59,7 +60,9 @@ import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinne
     HttpClientModule,
     AppRoutingModule
   ],
-  providers: [LoggingService, AuthGuard, AuthService, ShoppingService, RecipeService, DataStorageService, RecipeResolverService],
+  providers: [LoggingService, AuthGuard, MyAuthService, ShoppingService, RecipeService,
+    DataStorageService, RecipeResolverService,
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

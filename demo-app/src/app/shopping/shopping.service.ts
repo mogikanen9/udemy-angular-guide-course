@@ -23,7 +23,7 @@ export class ShoppingService {
     addIngredient(newIngedient: Ingredient): void {
         if (newIngedient) {
             this.theIngredients.push(newIngedient);
-            this.loggingService.log('ShoppingService#addIngredient->' + newIngedient);
+            this.loggingService.debug('ShoppingService#addIngredient->' + newIngedient);
             this.ingredientUpdate.next(this.theIngredients.slice());
         } else {
             throw new Error('newIngredient cannot be undefined!');

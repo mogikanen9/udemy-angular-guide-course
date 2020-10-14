@@ -10,7 +10,7 @@ import { RecipeEditComponent } from './recipe/recipe-edit/recipe-edit.component'
 import { RecipeResolverService } from './recipe/recipe-resolver.service';
 import { RecipeStartComponent } from './recipe/recipe-start/recipe-start.component';
 import { RecipeComponent } from './recipe/recipe.component';
-import { AuthGuard } from './shared/auth-guard.service';
+import { AuthGuard } from './auth/auth-guard.service';
 import { ShoppingComponent } from './shopping/shopping.component';
 
 const appRoutes: Routes = [
@@ -25,7 +25,8 @@ const appRoutes: Routes = [
             { path: ':id', component: RecipeDetailComponent, resolve: [RecipeResolverService] }
         ]
     },
-    { path: 'shopping-list', component: ShoppingComponent, canActivate: [AuthGuard] },
+    { path: 'shopping-list', component: ShoppingComponent, //canActivate: [AuthGuard] 
+            },
     { path: 'project', component: ProjectComponent},
     { path: 'auth', component: AuthComponent},
     { path: '404', component: PageNotFoundComponent },

@@ -10,14 +10,20 @@
                     <ul class="nav navbar-nav">
                         <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                             <a routerLink="/" class="navbar-brand">Home</a></li>
-                        <li routerLinkActive="active"><a routerLink="/recipes" class="navbar-brand">Recipe</a></li>
+                        <li routerLinkActive="active">
+                            <a routerLink="/recipes" class="navbar-brand" *ngIf="isAuthenticated" >Recipe</a>
+                        </li>
                         <li routerLinkActive="active"><a routerLink="/shopping-list" class="navbar-brand">Shopping
                                 List</a></li>
-                        <li routerLinkActive="active"><a routerLink="/auth" class="navbar-brand">Authenticate</a></li>
+                        <li routerLinkActive="active"><a routerLink="/auth" class="navbar-brand"
+                            *ngIf="!isAuthenticated">Authenticate</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li class="dropdown" appDropdown>
-                            <a class="dropdown-toggle" role="button">Managing <span class="caret"></span></a>
+                        <li>
+                            <a href="" style="cursor: pointer;" *ngIf="isAuthenticated" (click)="onLogout()">Logout</a>
+                        </li>
+                        <li class="dropdown" appDropdown *ngIf="isAuthenticated">
+                            <a class="dropdown-toggle" role="button">Manage <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a style="cursor: pointer;" (click)="onSaveClick()">Save</a></li>
                                 <li><a style="cursor: pointer;" (click)="onFetchClick()">Fetch</a></li>

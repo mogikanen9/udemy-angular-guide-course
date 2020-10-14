@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AuthService } from '../shared/auth.service';
+import { MyAuthService } from '../auth/auth.service';
 import { interval, Subscription, Observable, Observer } from 'rxjs';
 @Component({
   selector: 'app-home',
@@ -10,7 +10,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   //private firstSub: Subscription;
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: MyAuthService) { }
   ngOnDestroy(): void {
     //this.firstSub.unsubscribe();
   }
@@ -33,11 +33,11 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   onSignInClick(): void {
-    this.authService.signIn();
+    //this.authService.signIn();
   }
 
   onSignOutClick(): void {
-    this.authService.signOut();
+    //this.authService.signOut();
   }
 
   isAuthenticated(): boolean {
