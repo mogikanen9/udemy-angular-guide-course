@@ -21,14 +21,14 @@ const appRoutes: Routes = [
         children: [
             { path: '', component: RecipeStartComponent, resolve: [RecipeResolverService] },
             { path: 'new', component: RecipeEditComponent },
-            { path: ':id/edit', component: RecipeEditComponent, resolve: [RecipeResolverService]},
+            { path: ':id/edit', component: RecipeEditComponent, resolve: [RecipeResolverService] },
             { path: ':id', component: RecipeDetailComponent, resolve: [RecipeResolverService] }
-        ]
+        ],
+        canActivate: [AuthGuard]
     },
-    { path: 'shopping-list', component: ShoppingComponent, //canActivate: [AuthGuard] 
-            },
-    { path: 'project', component: ProjectComponent},
-    { path: 'auth', component: AuthComponent},
+    { path: 'shopping-list', component: ShoppingComponent },
+    { path: 'project', component: ProjectComponent },
+    { path: 'auth', component: AuthComponent },
     { path: '404', component: PageNotFoundComponent },
     {
         path: '500', component: ErrorPageComponent,
