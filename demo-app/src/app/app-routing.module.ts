@@ -5,27 +5,11 @@ import { ErrorPageComponent } from './error-page/error-page.component';
 import { HomeComponent } from './home/home.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { ProjectComponent } from './project/project.component';
-import { RecipeDetailComponent } from './recipe/recipe-detail/recipe-detail.component';
-import { RecipeEditComponent } from './recipe/recipe-edit/recipe-edit.component';
-import { RecipeResolverService } from './recipe/recipe-resolver.service';
-import { RecipeStartComponent } from './recipe/recipe-start/recipe-start.component';
-import { RecipeComponent } from './recipe/recipe.component';
-import { AuthGuard } from './auth/auth-guard.service';
 import { ShoppingComponent } from './shopping/shopping.component';
 
 const appRoutes: Routes = [
     { path: '', component: HomeComponent, pathMatch: 'full' },
-    { path: 'home', component: HomeComponent },
-    {
-        path: 'recipes', component: RecipeComponent,
-        children: [
-            { path: '', component: RecipeStartComponent, resolve: [RecipeResolverService] },
-            { path: 'new', component: RecipeEditComponent },
-            { path: ':id/edit', component: RecipeEditComponent, resolve: [RecipeResolverService] },
-            { path: ':id', component: RecipeDetailComponent, resolve: [RecipeResolverService] }
-        ],
-        canActivate: [AuthGuard]
-    },
+    { path: 'home', component: HomeComponent }, 
     { path: 'shopping-list', component: ShoppingComponent },
     { path: 'project', component: ProjectComponent },
     { path: 'auth', component: AuthComponent },

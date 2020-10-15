@@ -29,7 +29,7 @@ export class AuthComponent implements OnInit, OnDestroy {
     private loggingService: LoggingService,
     private componentFactoryResolver: ComponentFactoryResolver) { }
   ngOnDestroy(): void {
-    if(this.alertEventSub){
+    if (this.alertEventSub) {
       this.alertEventSub.unsubscribe();
     }
   }
