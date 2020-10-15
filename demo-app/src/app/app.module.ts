@@ -23,28 +23,26 @@ import { DataStorageService } from './shared/data-storage.service';
 import { RecipeService } from './recipe/recipe.service';
 import { ShoppingService } from './shopping/shopping.service';
 import { AuthComponent } from './auth/auth.component';
-import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinner/loading-spinner.component';
 import { AuthInterceptorService } from './auth/auth-interceptor.service';
-import { AlertComponent } from './shared/alert/alert/alert.component';
-import { PlaceholderDirective } from './shared/placeholder/placeholder.directive';
 import { RecipesModule } from './recipe/recipes.module';
 import { ShoppingModule } from './shopping/shopping.module';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    DropdownDirective,
     HomeComponent,
     PageNotFoundComponent,
     ErrorPageComponent,
-    ProjectComponent, AuthComponent, LoadingSpinnerComponent, AlertComponent, PlaceholderDirective
+    ProjectComponent, AuthComponent
   ],
   imports: [
     FormsModule,
     ReactiveFormsModule,
     BrowserModule,
     HttpClientModule,
+    SharedModule,
     RecipesModule,
     ShoppingModule,
     AppRoutingModule
