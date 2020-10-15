@@ -32,6 +32,7 @@ import { AuthComponent } from './auth/auth.component';
 import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinner/loading-spinner.component';
 import { AuthInterceptorService } from './auth/auth-interceptor.service';
 import { AlertComponent } from './shared/alert/alert/alert.component';
+import { PlaceholderDirective } from './shared/placeholder/placeholder.directive';
 
 
 
@@ -52,7 +53,7 @@ import { AlertComponent } from './shared/alert/alert/alert.component';
     PageNotFoundComponent,
     ErrorPageComponent,
     RecipeStartComponent,
-    RecipeEditComponent, ProjectComponent, PrettyHeaderPipe, AuthComponent, LoadingSpinnerComponent, AlertComponent
+    RecipeEditComponent, ProjectComponent, PrettyHeaderPipe, AuthComponent, LoadingSpinnerComponent, AlertComponent, PlaceholderDirective
   ],
   imports: [
     FormsModule,

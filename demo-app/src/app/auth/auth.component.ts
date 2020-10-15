@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ComponentFactoryResolver, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
+import { AlertComponent } from '../shared/alert/alert/alert.component';
 import { LoggingService } from '../shared/logging.service';
+import { PlaceholderDirective } from '../shared/placeholder/placeholder.directive';
 import { AuthResponse } from './auth.model';
 import { MyAuthService } from './auth.service';
 
@@ -11,13 +13,26 @@ import { MyAuthService } from './auth.service';
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.css']
 })
-export class AuthComponent implements OnInit {
+export class AuthComponent implements OnInit, OnDestroy {
 
   isLoginMode = true;
   isLoading = false;
-  error: string = null;
+  // error: string = null;
 
-  constructor(private authService: MyAuthService, private router: Router, private loggingService: LoggingService) { }
+  @ViewChild(PlaceholderDirective, { static: false }) alertHost: PlaceholderDirective;
+
+  private alertEventSub: Subscription;
+
+  constructor(
+    private authService: MyAuthService,
+    private router: Router,
+    private loggingService: LoggingService,
+    private componentFactoryResolver: ComponentFactoryResolver) { }
+  ngOnDestroy(): void {
+    if(this.alertEventSub){
+      this.alertEventSub.unsubscribe();
+    }
+  }
 
   ngOnInit(): void {
   }
@@ -36,7 +51,7 @@ export class AuthComponent implements OnInit {
     const pwdValue = value.pwd;
 
     this.isLoading = true;
-    this.error = null;
+    // this.error = null;
 
     let operation: Observable<AuthResponse>;
 
@@ -52,16 +67,33 @@ export class AuthComponent implements OnInit {
         this.isLoading = false;
         this.router.navigate(['/recipes']);
       }, (errorMessage) => {
-        this.error = errorMessage;
+        // this.error = errorMessage;
         this.isLoading = false;
-
+        this.showErrorAlert(errorMessage);
       });
 
     authForm.reset();
   }
 
   onHandleError(): void {
-    this.error = null;
+    // this.error = null;
   }
 
+  private showErrorAlert(msg: string): void {
+
+    const alertComponentFactory = this.componentFactoryResolver.resolveComponentFactory(AlertComponent);
+
+    const hostViewContainerRef = this.alertHost.viewContainerRef;
+    hostViewContainerRef.clear(); // clear what was rendered before
+
+    const myAlertRef = hostViewContainerRef.createComponent(alertComponentFactory);
+
+    myAlertRef.instance.message = msg;
+    this.alertEventSub = myAlertRef.instance.close.subscribe(() => {
+      this.alertEventSub.unsubscribe();
+      hostViewContainerRef.clear();
+    });
+
+
+  }
 }
