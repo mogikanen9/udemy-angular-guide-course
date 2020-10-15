@@ -2,8 +2,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-import { RouterModule } from '@angular/router';
-import { AppRoutingModule } from '../app-routing.module';
+import { DropdownDirective } from '../shared/dropdown.directive';
 import { PrettyHeaderPipe } from '../shared/pretty-header.pipe';
 import { RecipeDetailComponent } from './recipe-detail/recipe-detail.component';
 import { RecipeEditComponent } from './recipe-edit/recipe-edit.component';
@@ -29,14 +28,6 @@ import { RecipesRoutingModule } from './recipes-routing.module';
         BrowserModule,
         HttpClientModule,
         RecipesRoutingModule
-    ],
-    exports: [
-        RecipeComponent,
-        RecipeListComponent,
-        RecipeDetailComponent,
-        RecipeItemComponent,
-        RecipeStartComponent,
-        RecipeEditComponent
     ]
 })
 export class RecipesModule {
