@@ -15,7 +15,7 @@ import { AuthComponent } from './auth.component';
         BrowserModule,
         HttpClientModule,
         SharedModule,
-        RouterModule.forRoot([{ path: 'auth', component: AuthComponent }])
+        RouterModule.forChild([{ path: 'auth', component: AuthComponent }])
     ],
     exports: [RouterModule]
 
