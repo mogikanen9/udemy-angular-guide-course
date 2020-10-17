@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
 import { Ingredient } from '../shared/ingredient.model';
 import { ShoppingService } from '../shopping/shopping.service';
 import { Recipe } from './recipe.model';
+import { Subject } from 'rxjs';
+import { LoggingService } from '../shared/logging.service';
 
 @Injectable()
 export class RecipeService {
 
-    private theRecipes = [
+    private theRecipes: Recipe[] = [];
+    /* private theRecipes = [
         new Recipe('q1', 'Baked shripms with rice',
             ' Simple Description ',
             'https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=700%2C636',
@@ -23,10 +25,10 @@ export class RecipeService {
                 new Ingredient('Red Pepper', 0.5),
             ])
     ];
-
+ */
     recipeUpdates = new Subject<Recipe[]>();
 
-    constructor(private shoppingService: ShoppingService) { }
+    constructor(private shoppingService: ShoppingService, private loggingService: LoggingService) { }
 
     get recipes(): Recipe[] {
         return this.theRecipes.slice();
@@ -35,6 +37,7 @@ export class RecipeService {
     addRecipe(newRecipe: Recipe): void {
 
         if (newRecipe && newRecipe.rid) {
+
             this.theRecipes.push(Object.assign(newRecipe));
             this.recipeUpdates.next(this.recipes);
         } else {
@@ -57,7 +60,6 @@ export class RecipeService {
 
     updateRecipe(updatedRecipe: Recipe): void {
         const index = this.theRecipes.findIndex((rcp) => rcp.rid === updatedRecipe.rid);
-        console.log('index->', index);
         if (index !== -1) {
             this.theRecipes[index] = Object.assign(updatedRecipe);
             this.recipeUpdates.next(this.recipes);
@@ -78,5 +80,12 @@ export class RecipeService {
         } else {
             throw new Error(`Recipe with id '${recipe.rid}' was not found to be deleted!`);
         }
+    }
+
+    updateAllRecipes(recipes: Recipe[]): void {
+        this.loggingService.debug('updateAllRecipes called, recipes->', recipes);
+        this.theRecipes = recipes;
+        this.recipeUpdates.next(this.recipes);
+
     }
 }
