@@ -1,15 +1,14 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { ErrorPageComponent } from './error-page/error-page.component';
-import { HomeComponent } from './home/home.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { ProjectComponent } from './project/project.component';
 
 const appRoutes: Routes = [
-    { path: '', component: HomeComponent, pathMatch: 'full' },
+    
     // { path: 'recipes', loadChildren: () => import('./recipe/recipes.module').then(m => m.RecipesModule) },
     // { path: 'shopping-list', loadChildren: () => import('./shopping/shopping.module').then(m => m.ShoppingModule) },
-    { path: 'home', component: HomeComponent },
+    { path: '', redirectTo: 'recipes', pathMatch: 'full'},
     { path: 'project', component: ProjectComponent },
     { path: '404', component: PageNotFoundComponent },
     {
@@ -17,8 +16,8 @@ const appRoutes: Routes = [
         data: {
             message: 'My Error Message'
         }
-    }//,
-    //{ path: '**', redirectTo: '404' }
+    },
+    { path: '**', redirectTo: '404' }
 ];
 
 @NgModule({

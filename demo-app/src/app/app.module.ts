@@ -8,7 +8,6 @@ import { AuthModule } from './auth/auth.module';
 import { CoreModule } from './core.module';
 import { ErrorPageComponent } from './error-page/error-page.component';
 import { HeaderComponent } from './header/header.component';
-import { HomeComponent } from './home/home.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { ProjectComponent } from './project/project.component';
 import { RecipesModule } from './recipe/recipes.module';
@@ -20,7 +19,6 @@ import { ShoppingModule } from './shopping/shopping.module';
   declarations: [
     AppComponent,
     HeaderComponent,
-    HomeComponent,
     PageNotFoundComponent,
     ErrorPageComponent,
     ProjectComponent
