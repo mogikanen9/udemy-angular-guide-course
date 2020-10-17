@@ -1,20 +1,33 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ComponentFactoryResolver, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { MyAuthService } from '../auth/auth.service';
 import { DataStorageService } from '../shared/data-storage.service';
+import { PlaceholderDirective } from '../shared/placeholder/placeholder.directive';
+import { AboutComponent } from './about/about.component';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit, OnDestroy {
+export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
 
   userSub: Subscription;
   isAuthenticated = false;
 
-  constructor(private dataStorageService: DataStorageService, private authService: MyAuthService) { }
+  @ViewChild(PlaceholderDirective, { static: false }) appAboutHost: PlaceholderDirective;
+
+  private aboutSub: Subscription;
+
+  constructor(private dataStorageService: DataStorageService, private authService: MyAuthService,
+    // tslint:disable-next-line:align
+    private componentFactoryResolver: ComponentFactoryResolver) { }
+
+  ngAfterViewInit(): void {
+    console.log('appAboutHost->', this.appAboutHost);
+  }
+
   ngOnDestroy(): void {
     this.userSub.unsubscribe();
   }
@@ -35,6 +48,27 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   onLogout(): void {
     this.authService.logout();
+  }
+
+  onAboutClick(): void {
+     this.loadAboutDilg();
+  }
+
+  loadAboutDilg(): void {
+
+    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(AboutComponent);
+
+    const viewContainerRef = this.appAboutHost.viewContainerRef;
+    viewContainerRef.clear();
+
+    const componentRef = viewContainerRef.createComponent<AboutComponent>(componentFactory);
+    componentRef.instance.data = 'This demo app is cool';
+
+    this.aboutSub = componentRef.instance.close.subscribe(() => {
+      this.aboutSub.unsubscribe();
+      viewContainerRef.clear();
+    });
+
   }
 
 }
