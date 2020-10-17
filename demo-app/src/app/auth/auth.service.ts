@@ -6,8 +6,9 @@ import { catchError, tap } from 'rxjs/operators';
 import { LoggingService } from '../shared/logging.service';
 import { AuthRequest, AuthResponse } from './auth.model';
 import { User } from './user.model';
+import { environment } from '../../environments/environment';
 
-const apiKey = 'AIzaSyDzyAO0rVzPTCbVy6eROPRoECKDmtt27jE';
+const apiKey = environment.firebaseApiKey;
 
 @Injectable()
 export class MyAuthService {
