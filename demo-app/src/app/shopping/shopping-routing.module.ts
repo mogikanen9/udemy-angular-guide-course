@@ -4,6 +4,7 @@ import { ShoppingComponent } from './shopping.component';
 
 const shoppingRoutes: Routes = [
     { path: 'shopping-list', component: ShoppingComponent }
+    // { path: '', component: ShoppingComponent }
 ];
 
 @NgModule({

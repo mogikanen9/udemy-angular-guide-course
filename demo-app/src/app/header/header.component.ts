@@ -51,7 +51,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onAboutClick(): void {
-     this.loadAboutDilg();
+    this.loadAboutDilg();
   }
 
   loadAboutDilg(): void {
