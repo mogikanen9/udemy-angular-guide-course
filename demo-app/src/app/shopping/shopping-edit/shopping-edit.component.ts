@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { Ingredient } from '../../shared/ingredient.model';
-import { LoggingService } from '../../shared/logging.service';
 import { ShoppingService } from '../shopping.service';
-
+import * as ShoppingActions from '../store/shopping.actions';
 
 
 @Component({
@@ -19,7 +19,9 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
   editMode = false;
   initialEditItem: Ingredient;
 
-  constructor(private shoppingService: ShoppingService) { }
+  constructor(
+    private shoppingService: ShoppingService,
+    private store: Store<{ shoppingList: { ingredients: Ingredient[] } }>) { }
   ngOnDestroy(): void {
     this.sub.unsubscribe();
   }
@@ -42,9 +44,11 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
       const ing = new Ingredient(newName, newAmount);
 
       if (this.editMode) {
-        this.shoppingService.updateItem(this.initialEditItem, ing);
+        //this.shoppingService.updateItem(this.initialEditItem, ing);
+        this.store.dispatch(new ShoppingActions.UpdateIngredient({ oldItem: this.initialEditItem, newItem: ing }));
       } else {
-        this.shoppingService.addIngredient(ing);
+        //this.shoppingService.addIngredient(ing);
+        this.store.dispatch(new ShoppingActions.AddIngredient(ing));
       }
     }
 
@@ -62,7 +66,8 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
   onDelete(): void {
     const newName = this.shoppingForm.form.value.newName;
     const newAmount = this.shoppingForm.form.value.newAmount;
-    this.shoppingService.deleteItem({ name: newName, amount: newAmount });
+    //this.shoppingService.deleteItem({ name: newName, amount: newAmount });
+    this.store.dispatch(new ShoppingActions.DeleteIngredient({ name: newName, amount: newAmount }));
 
     this.onClear();
   }

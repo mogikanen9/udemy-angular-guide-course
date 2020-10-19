@@ -3,7 +3,8 @@
         <app-shopping-edit></app-shopping-edit>
         <hr />        
         <ul clss="list-group">          
-            <app-shopping-list-item *ngFor="let item of ingredients" [displayItem]="item"></app-shopping-list-item>
+            <app-shopping-list-item 
+                *ngFor="let item of (ingredients | async).ingredients" [displayItem]="item"></app-shopping-list-item>
         </ul>
     </div>
 </div>

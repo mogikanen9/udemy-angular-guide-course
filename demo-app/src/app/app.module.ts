@@ -14,6 +14,8 @@ import { RecipesModule } from './recipe/recipes.module';
 import { SharedModule } from './shared/shared.module';
 import { ShoppingModule } from './shopping/shopping.module';
 
+import { StoreModule } from '@ngrx/store';
+import { shoppingListReducer } from './shopping/store/shopping.reducer';
 
 @NgModule({
   declarations: [
@@ -33,7 +35,8 @@ import { ShoppingModule } from './shopping/shopping.module';
     AuthModule,
     RecipesModule,
     ShoppingModule,
-    AppRoutingModule
+    AppRoutingModule,
+    StoreModule.forRoot({ shoppingList: shoppingListReducer })
   ],
   bootstrap: [AppComponent]
 })
