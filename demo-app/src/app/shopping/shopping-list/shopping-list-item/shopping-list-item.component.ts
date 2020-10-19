@@ -1,6 +1,8 @@
-import { Component, EventEmitter, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { Ingredient } from 'src/app/shared/ingredient.model';
-import { ShoppingService } from '../../shopping.service';
+import * as ShoppingActions from '../../store/shopping.actions';
+import { AppState } from '../../store/shopping.reducer';
 
 @Component({
   selector: 'app-shopping-list-item',
@@ -14,14 +16,17 @@ export class ShoppingListItemComponent implements OnInit {
   item: {
     name: string;
     amount: number;
-  }
+  };
 
-  constructor(private shoppingService: ShoppingService) { }
+  constructor(
+    // private shoppingService: ShoppingService,
+    private store: Store<AppState>) { }
 
   ngOnInit(): void {
   }
 
   onEditItem(item: Ingredient): void {
-    this.shoppingService.markStartEditing(item);
+    this.store.dispatch(new ShoppingActions.StartEditIngredient(item));
+    // this.shoppingService.markStartEditing(item);
   }
 }
