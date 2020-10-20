@@ -7,16 +7,21 @@ import { LoggingService } from '../shared/logging.service';
 import { AuthRequest, AuthResponse } from './auth.model';
 import { User } from './user.model';
 import { environment } from '../../environments/environment';
+import { Store } from '@ngrx/store';
+import * as fromApp from '../store/app.reducer';
+import * as AuthActions from '../auth/store/auth.actions';
 
 const apiKey = environment.firebaseApiKey;
 
 @Injectable()
 export class MyAuthService {
 
-    userSubject = new BehaviorSubject<User>(null);
+    //userSubject = new BehaviorSubject<User>(null);
     private tokenExpTimer: any;
 
-    constructor(private http: HttpClient, private loggingService: LoggingService, private router: Router) { }
+    constructor(
+        private http: HttpClient, private loggingService: LoggingService,
+        private router: Router, private store: Store<fromApp.AppState>) { }
 
     signUp(request: AuthRequest): Observable<AuthResponse> {
 
@@ -80,7 +85,8 @@ export class MyAuthService {
 
         const expirationDate = new Date(new Date().getTime() + +expiresIn * 1000);
         const user = new User(email, userId, token, expirationDate);
-        this.userSubject.next(user);
+        //this.userSubject.next(user);
+        this.store.dispatch(new AuthActions.LoginAction({ id: userId, email, _token: token, _tokenExpirationDate: expirationDate }));
 
         this.loggingService.debug('handleAuthentication#user emited->', user);
 
@@ -98,7 +104,11 @@ export class MyAuthService {
             const user = new User(loadedUser.email, loadedUser.id, loadedUser._token, loadedUser._tokenExpirationDate);
 
             if (user.token) {
-                this.userSubject.next(user);
+                // this.userSubject.next(user);
+                this.store.dispatch(new AuthActions.LoginAction({
+                    id: loadedUser.id, email: loadedUser.email,
+                    _token: loadedUser._toke, _tokenExpirationDate: loadedUser._tokenExpirationDate
+                }));
                 const expDur = loadedUser._tokenExpirationDate.getTime() - new Date().getTime();
                 this.autoLogout(expDur);
             }
@@ -111,7 +121,8 @@ export class MyAuthService {
     }
 
     logout(): void {
-        this.userSubject.next(null);
+        // this.userSubject.next(null);
+        this.store.dispatch(new AuthActions.LogoutAction());
         this.router.navigate(['/auth']);
         localStorage.removeItem('demoAppUserData');
         if (this.tokenExpTimer) {

@@ -1,10 +1,13 @@
 import { AfterViewInit, Component, ComponentFactoryResolver, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { MyAuthService } from '../auth/auth.service';
 import { DataStorageService } from '../shared/data-storage.service';
 import { PlaceholderDirective } from '../shared/placeholder/placeholder.directive';
 import { AboutComponent } from './about/about.component';
+import { Store } from '@ngrx/store';
+import * as fromApp from '../store/app.reducer';
 
 @Component({
   selector: 'app-header',
@@ -20,9 +23,11 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private aboutSub: Subscription;
 
-  constructor(private dataStorageService: DataStorageService, private authService: MyAuthService,
+  constructor(
+    private dataStorageService: DataStorageService, private authService: MyAuthService,
     // tslint:disable-next-line:align
-    private componentFactoryResolver: ComponentFactoryResolver) { }
+    private componentFactoryResolver: ComponentFactoryResolver,
+    private store: Store<fromApp.AppState>) { }
 
   ngAfterViewInit(): void {
     console.log('appAboutHost->', this.appAboutHost);
@@ -33,9 +38,12 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.userSub = this.authService.userSubject.subscribe(user => {
+    this.store.select('auth').pipe(map(userState => userState.user)).subscribe(user => {
       this.isAuthenticated = (user && user != null);
     });
+    /* this.userSub = this.authService.userSubject.subscribe(user => {
+      this.isAuthenticated = (user && user != null);
+    }); */
   }
 
   onFetchClick(): void {

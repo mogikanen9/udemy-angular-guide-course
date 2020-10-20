@@ -4,7 +4,7 @@ import { Subject } from 'rxjs';
 import { Ingredient } from '../shared/ingredient.model';
 import { LoggingService } from '../shared/logging.service';
 import * as ShoppingActions from '../shopping/store/shopping.actions';
-import { AppState } from '../shopping/store/shopping.reducer';
+import { AppState } from '../store/app.reducer';
 import { Recipe } from './recipe.model';
 
 

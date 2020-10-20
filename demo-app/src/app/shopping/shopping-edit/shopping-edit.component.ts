@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { Ingredient } from '../../shared/ingredient.model';
 import * as ShoppingActions from '../store/shopping.actions';
-import { AppState } from '../store/shopping.reducer';
+import { AppState } from '../../store/app.reducer';
 
 
 @Component({

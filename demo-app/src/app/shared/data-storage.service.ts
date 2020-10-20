@@ -2,12 +2,17 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, tap, take, exhaustMap } from 'rxjs/operators';
-import { MyAuthService } from '../auth/auth.service';
+// import { MyAuthService } from '../auth/auth.service';
 import { Recipe } from '../recipe/recipe.model';
 import { RecipeService } from '../recipe/recipe.service';
 import { LoggingService } from './logging.service';
 
 const RECIPES_API_URL = 'https://recipe-demo-service.firebaseio.com/recipes.json';
+
+
+import { Store } from '@ngrx/store';
+import * as fromApp from '../store/app.reducer';
+
 
 @Injectable()
 export class DataStorageService {
@@ -16,7 +21,8 @@ export class DataStorageService {
         private recipeService: RecipeService,
         private http: HttpClient,
         private loggingService: LoggingService,
-        private authService: MyAuthService) { }
+        // private authService: MyAuthService,
+        private store: Store<fromApp.AppState>) { }
 
     saveRecepies(): void {
 
@@ -46,10 +52,10 @@ export class DataStorageService {
          * works for all HTTP requests
          * Keep it for DEMO purpose only
          */
-        return this.authService.userSubject.pipe(take(1),
-            exhaustMap((user) => {
+        return this.store.select('auth').pipe(take(1),
+            exhaustMap((userState) => {
                 return this.http.get<Recipe[]>(RECIPES_API_URL, {
-                    params: new HttpParams().set('auth', user.token)
+                    params: new HttpParams().set('auth', userState.user.token)
                 });
             }),
             map((respData) => {

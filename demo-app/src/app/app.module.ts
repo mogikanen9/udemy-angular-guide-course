@@ -2,6 +2,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
+import { StoreModule } from '@ngrx/store';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthModule } from './auth/auth.module';
@@ -13,9 +14,8 @@ import { ProjectComponent } from './project/project.component';
 import { RecipesModule } from './recipe/recipes.module';
 import { SharedModule } from './shared/shared.module';
 import { ShoppingModule } from './shopping/shopping.module';
+import * as fromApp from './store/app.reducer';
 
-import { StoreModule } from '@ngrx/store';
-import { shoppingListReducer } from './shopping/store/shopping.reducer';
 
 @NgModule({
   declarations: [
@@ -36,7 +36,7 @@ import { shoppingListReducer } from './shopping/store/shopping.reducer';
     RecipesModule,
     ShoppingModule,
     AppRoutingModule,
-    StoreModule.forRoot({ shoppingList: shoppingListReducer })
+    StoreModule.forRoot(fromApp.appReducer)
   ],
   bootstrap: [AppComponent]
 })
