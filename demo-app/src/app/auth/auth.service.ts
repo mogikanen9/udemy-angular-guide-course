@@ -16,14 +16,14 @@ const apiKey = environment.firebaseApiKey;
 @Injectable()
 export class MyAuthService {
 
-    //userSubject = new BehaviorSubject<User>(null);
+    // userSubject = new BehaviorSubject<User>(null);
     private tokenExpTimer: any;
 
     constructor(
         private http: HttpClient, private loggingService: LoggingService,
         private router: Router, private store: Store<fromApp.AppState>) { }
 
-    signUp(request: AuthRequest): Observable<AuthResponse> {
+    signUpRenamed(request: AuthRequest): Observable<AuthResponse> {
 
         const emitUserInfo = tap<AuthResponse>({
             next: (responseData) => {
@@ -34,7 +34,7 @@ export class MyAuthService {
         });
 
         return this.http.post<AuthResponse>(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${apiKey}`,
-            request).pipe(catchError(this.handleError), emitUserInfo);
+            request).pipe(catchError(this.handleErrorRenamed), emitUserInfo);
     }
 
     signInRenamed(signInRequest: AuthRequest): Observable<AuthResponse> {
@@ -46,10 +46,10 @@ export class MyAuthService {
             }
         });
         return this.http.post<AuthResponse>(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${apiKey}`,
-            signInRequest).pipe(catchError(this.handleError), emitUserInfo);
+            signInRequest).pipe(catchError(this.handleErrorRenamed), emitUserInfo);
     }
 
-    private handleError(errorResponse: HttpErrorResponse): Observable<never> {
+    private handleErrorRenamed(errorResponse: HttpErrorResponse): Observable<never> {
         let errorMessage = 'Unknown server internal error';
         if (errorResponse.error && errorResponse.error.error) {
 
@@ -85,8 +85,8 @@ export class MyAuthService {
 
         const expirationDate = new Date(new Date().getTime() + +expiresIn * 1000);
         const user = new User(email, userId, token, expirationDate);
-        //this.userSubject.next(user);
-        this.store.dispatch(new AuthActions.LoginAction({ id: userId, email, token, tokenExpirationDate: expirationDate }));
+        // this.userSubject.next(user);
+        this.store.dispatch(new AuthActions.AuthSuccessAction({ id: userId, email, token, tokenExpirationDate: expirationDate }));
 
         this.loggingService.debug('handleAuthentication#user emited->', user);
 
@@ -95,7 +95,7 @@ export class MyAuthService {
 
     }
 
-    autoLogin(): void {
+    autoLoginRenamed(): void {
         const userData = localStorage.getItem('demoAppUserData');
         if (!userData) {
             return;
@@ -105,7 +105,7 @@ export class MyAuthService {
 
             if (user.token) {
                 // this.userSubject.next(user);
-                this.store.dispatch(new AuthActions.LoginAction({
+                this.store.dispatch(new AuthActions.AuthSuccessAction({
                     id: loadedUser.id, email: loadedUser.email,
                     token: loadedUser._token, tokenExpirationDate: loadedUser._tokenExpirationDate
                 }));
@@ -120,7 +120,7 @@ export class MyAuthService {
         return true;
     }
 
-    logout(): void {
+    logoutRenamed(): void {
         // this.userSubject.next(null);
         this.store.dispatch(new AuthActions.LogoutAction());
         this.router.navigate(['/auth']);
@@ -132,7 +132,7 @@ export class MyAuthService {
 
     autoLogout(expDuration: number): void {
         this.tokenExpTimer = setTimeout(() => {
-            this.logout();
+            this.logoutRenamed();
         }, expDuration);
     }
 }

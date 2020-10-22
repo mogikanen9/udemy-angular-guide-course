@@ -1,5 +1,4 @@
 import { AfterViewInit, Component, ComponentFactoryResolver, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { MyAuthService } from '../auth/auth.service';
@@ -8,6 +7,8 @@ import { PlaceholderDirective } from '../shared/placeholder/placeholder.directiv
 import { AboutComponent } from './about/about.component';
 import { Store } from '@ngrx/store';
 import * as fromApp from '../store/app.reducer';
+import { LogoutAction } from '../auth/store/auth.actions';
+
 
 @Component({
   selector: 'app-header',
@@ -55,7 +56,8 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onLogout(): void {
-    this.authService.logout();
+    //this.authService.logout();
+    this.store.dispatch(new LogoutAction());
   }
 
   onAboutClick(): void {

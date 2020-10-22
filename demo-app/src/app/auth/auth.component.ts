@@ -27,9 +27,11 @@ export class AuthComponent implements OnInit, OnDestroy {
 
   private alertEventSub: Subscription;
 
+  private storeSub: Subscription;
+
   constructor(
-    private authService: MyAuthService,
-    private router: Router,
+    // private authService: MyAuthService,
+    // private router: Router,
     private loggingService: LoggingService,
     private componentFactoryResolver: ComponentFactoryResolver,
     private store: Store<fromApp.AppState>) { }
@@ -38,10 +40,14 @@ export class AuthComponent implements OnInit, OnDestroy {
     if (this.alertEventSub) {
       this.alertEventSub.unsubscribe();
     }
+
+    if (this.storeSub) {
+      this.storeSub.unsubscribe();
+    }
   }
 
   ngOnInit(): void {
-    this.store.select('auth').subscribe((authState: AuthState) => {
+    this.storeSub = this.store.select('auth').subscribe((authState: AuthState) => {
       this.isLoading = authState.loading;
       if (authState.authError) {
         this.showErrorAlert(authState.authError);
@@ -65,13 +71,14 @@ export class AuthComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     // this.error = null;
 
-    let operation: Observable<AuthResponse>;
+    // let operation: Observable<AuthResponse>;
 
     if (this.isLoginMode) {
-      //operation = this.authService.signIn({ email: emailValue, password: pwdValue, returnSecureToken: true });
+      // operation = this.authService.signIn({ email: emailValue, password: pwdValue, returnSecureToken: true });
       this.store.dispatch(new AuthActions.LoginStartAction({ email: emailValue, password: pwdValue }));
     } else {
-      operation = this.authService.signUp({ email: emailValue, password: pwdValue, returnSecureToken: true });
+      this.store.dispatch(new AuthActions.SignupStartAction({ email: emailValue, password: pwdValue }));
+      // operation = this.authService.signUp({ email: emailValue, password: pwdValue, returnSecureToken: true });
     }
 
     /* operation.subscribe(
@@ -91,7 +98,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   }
 
   onHandleError(): void {
-    // this.error = null;
+    this.store.dispatch(new AuthActions.ClearErrorAction());
   }
 
   private showErrorAlert(msg: string): void {
@@ -108,7 +115,5 @@ export class AuthComponent implements OnInit, OnDestroy {
       this.alertEventSub.unsubscribe();
       hostViewContainerRef.clear();
     });
-
-
   }
 }
