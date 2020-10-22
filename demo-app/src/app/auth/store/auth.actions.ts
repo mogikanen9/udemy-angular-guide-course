@@ -48,5 +48,5 @@ export class AutoLoginAction implements Action {
     readonly type = AUTO_LOGIN;
 }
 
-export type AuthActions = AuthSuccessAction | LogoutAction | LoginStartAction | AuthFailAction 
-| SignupStartAction | ClearErrorAction |AutoLoginAction;
+export type AuthActions = AuthSuccessAction | LogoutAction | LoginStartAction | AuthFailAction
+    | SignupStartAction | ClearErrorAction | AutoLoginAction;

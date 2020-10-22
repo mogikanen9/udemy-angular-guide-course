@@ -139,7 +139,7 @@ export class MyAuthService {
         }, expDuration);
     }
 
-    clearLogoutTimer() :void{
+    clearLogoutTimer(): void {
         if (this.tokenExpTimer) {
             this.tokenExpTimer = null;
         }

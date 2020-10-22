@@ -60,7 +60,7 @@ export function authReducer(state: AuthState = initialState, action: AuthActions
 
         case AuthActions.CLEAR_ERROR: {
             return {
-                ...state,                
+                ...state,
                 authError: null
             };
         }
