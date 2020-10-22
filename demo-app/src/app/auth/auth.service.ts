@@ -37,7 +37,7 @@ export class MyAuthService {
             request).pipe(catchError(this.handleError), emitUserInfo);
     }
 
-    signIn(signInRequest: AuthRequest): Observable<AuthResponse> {
+    signInRenamed(signInRequest: AuthRequest): Observable<AuthResponse> {
         const emitUserInfo = tap<AuthResponse>({
             next: (responseData) => {
                 this.handleAuthentication(
@@ -86,7 +86,7 @@ export class MyAuthService {
         const expirationDate = new Date(new Date().getTime() + +expiresIn * 1000);
         const user = new User(email, userId, token, expirationDate);
         //this.userSubject.next(user);
-        this.store.dispatch(new AuthActions.LoginAction({ id: userId, email, _token: token, _tokenExpirationDate: expirationDate }));
+        this.store.dispatch(new AuthActions.LoginAction({ id: userId, email, token, tokenExpirationDate: expirationDate }));
 
         this.loggingService.debug('handleAuthentication#user emited->', user);
 
@@ -107,7 +107,7 @@ export class MyAuthService {
                 // this.userSubject.next(user);
                 this.store.dispatch(new AuthActions.LoginAction({
                     id: loadedUser.id, email: loadedUser.email,
-                    _token: loadedUser._toke, _tokenExpirationDate: loadedUser._tokenExpirationDate
+                    token: loadedUser._token, tokenExpirationDate: loadedUser._tokenExpirationDate
                 }));
                 const expDur = loadedUser._tokenExpirationDate.getTime() - new Date().getTime();
                 this.autoLogout(expDur);

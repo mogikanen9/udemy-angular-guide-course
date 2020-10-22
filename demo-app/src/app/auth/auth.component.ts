@@ -7,6 +7,10 @@ import { LoggingService } from '../shared/logging.service';
 import { PlaceholderDirective } from '../shared/placeholder/placeholder.directive';
 import { AuthResponse } from './auth.model';
 import { MyAuthService } from './auth.service';
+import { Store } from '@ngrx/store';
+import * as fromApp from '../store/app.reducer';
+import * as AuthActions from './store/auth.actions';
+import { AuthState } from './store/auth.reducer';
 
 @Component({
   selector: 'app-auth',
@@ -27,7 +31,9 @@ export class AuthComponent implements OnInit, OnDestroy {
     private authService: MyAuthService,
     private router: Router,
     private loggingService: LoggingService,
-    private componentFactoryResolver: ComponentFactoryResolver) { }
+    private componentFactoryResolver: ComponentFactoryResolver,
+    private store: Store<fromApp.AppState>) { }
+
   ngOnDestroy(): void {
     if (this.alertEventSub) {
       this.alertEventSub.unsubscribe();
@@ -35,6 +41,12 @@ export class AuthComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.store.select('auth').subscribe((authState: AuthState) => {
+      this.isLoading = authState.loading;
+      if (authState.authError) {
+        this.showErrorAlert(authState.authError);
+      }
+    });
   }
 
   onSwitchMode(): void {
@@ -56,12 +68,13 @@ export class AuthComponent implements OnInit, OnDestroy {
     let operation: Observable<AuthResponse>;
 
     if (this.isLoginMode) {
-      operation = this.authService.signIn({ email: emailValue, password: pwdValue, returnSecureToken: true });
+      //operation = this.authService.signIn({ email: emailValue, password: pwdValue, returnSecureToken: true });
+      this.store.dispatch(new AuthActions.LoginStartAction({ email: emailValue, password: pwdValue }));
     } else {
       operation = this.authService.signUp({ email: emailValue, password: pwdValue, returnSecureToken: true });
     }
 
-    operation.subscribe(
+    /* operation.subscribe(
       (resp: AuthResponse) => {
         this.loggingService.debug('resp->', resp);
         this.isLoading = false;
@@ -70,7 +83,9 @@ export class AuthComponent implements OnInit, OnDestroy {
         // this.error = errorMessage;
         this.isLoading = false;
         this.showErrorAlert(errorMessage);
-      });
+      }); */
+
+
 
     authForm.reset();
   }
