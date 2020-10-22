@@ -20,36 +20,37 @@ export class MyAuthService {
     private tokenExpTimer: any;
 
     constructor(
-        private http: HttpClient, private loggingService: LoggingService,
-        private router: Router, private store: Store<fromApp.AppState>) { }
+        // private http: HttpClient, private loggingService: LoggingService,
+        // private router: Router, 
+        private store: Store<fromApp.AppState>) { }
 
-    signUpRenamed(request: AuthRequest): Observable<AuthResponse> {
+    /* signUpRenamed(request: AuthRequest): Observable<AuthResponse> {
+ 
+         const emitUserInfo = tap<AuthResponse>({
+             next: (responseData) => {
+                 this.handleAuthentication(
+                     responseData.email, responseData.localId,
+                     responseData.idToken, +responseData.expiresIn);
+             }
+         });
+ 
+         return this.http.post<AuthResponse>(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${apiKey}`,
+             request).pipe(catchError(this.handleErrorRenamed), emitUserInfo);
+     }
+ 
+     signInRenamed(signInRequest: AuthRequest): Observable<AuthResponse> {
+         const emitUserInfo = tap<AuthResponse>({
+             next: (responseData) => {
+                 this.handleAuthentication(
+                     responseData.email, responseData.localId,
+                     responseData.idToken, +responseData.expiresIn);
+             }
+         });
+         return this.http.post<AuthResponse>(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${apiKey}`,
+             signInRequest).pipe(catchError(this.handleErrorRenamed), emitUserInfo);
+     }*/
 
-        const emitUserInfo = tap<AuthResponse>({
-            next: (responseData) => {
-                this.handleAuthentication(
-                    responseData.email, responseData.localId,
-                    responseData.idToken, +responseData.expiresIn);
-            }
-        });
-
-        return this.http.post<AuthResponse>(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${apiKey}`,
-            request).pipe(catchError(this.handleErrorRenamed), emitUserInfo);
-    }
-
-    signInRenamed(signInRequest: AuthRequest): Observable<AuthResponse> {
-        const emitUserInfo = tap<AuthResponse>({
-            next: (responseData) => {
-                this.handleAuthentication(
-                    responseData.email, responseData.localId,
-                    responseData.idToken, +responseData.expiresIn);
-            }
-        });
-        return this.http.post<AuthResponse>(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${apiKey}`,
-            signInRequest).pipe(catchError(this.handleErrorRenamed), emitUserInfo);
-    }
-
-    private handleErrorRenamed(errorResponse: HttpErrorResponse): Observable<never> {
+    /* private handleErrorRenamed(errorResponse: HttpErrorResponse): Observable<never> {
         let errorMessage = 'Unknown server internal error';
         if (errorResponse.error && errorResponse.error.error) {
 
@@ -80,47 +81,47 @@ export class MyAuthService {
 
         return throwError(errorMessage);
     }
-
-    private handleAuthentication(email: string, userId: string, token: string, expiresIn: number): void {
-
-        const expirationDate = new Date(new Date().getTime() + +expiresIn * 1000);
-        const user = new User(email, userId, token, expirationDate);
-        // this.userSubject.next(user);
-        this.store.dispatch(new AuthActions.AuthSuccessAction({ id: userId, email, token, tokenExpirationDate: expirationDate }));
-
-        this.loggingService.debug('handleAuthentication#user emited->', user);
-
-        localStorage.setItem('demoAppUserData', JSON.stringify(user));
-        this.autoLogout(+expiresIn * 1000);
-
-    }
-
-    autoLoginRenamed(): void {
-        const userData = localStorage.getItem('demoAppUserData');
-        if (!userData) {
-            return;
-        } else {
-            const loadedUser = JSON.parse(userData);
-            const user = new User(loadedUser.email, loadedUser.id, loadedUser._token, loadedUser._tokenExpirationDate);
-
-            if (user.token) {
-                // this.userSubject.next(user);
-                this.store.dispatch(new AuthActions.AuthSuccessAction({
-                    id: loadedUser.id, email: loadedUser.email,
-                    token: loadedUser._token, tokenExpirationDate: loadedUser._tokenExpirationDate
-                }));
-                const expDur = loadedUser._tokenExpirationDate.getTime() - new Date().getTime();
-                this.autoLogout(expDur);
-            }
+ */
+    /*     private handleAuthentication(email: string, userId: string, token: string, expiresIn: number): void {
+    
+            const expirationDate = new Date(new Date().getTime() + +expiresIn * 1000);
+            const user = new User(email, userId, token, expirationDate);
+            // this.userSubject.next(user);
+            this.store.dispatch(new AuthActions.AuthSuccessAction({ id: userId, email, token, tokenExpirationDate: expirationDate }));
+    
+            this.loggingService.debug('handleAuthentication#user emited->', user);
+    
+            localStorage.setItem('demoAppUserData', JSON.stringify(user));
+            this.autoLogout(+expiresIn * 1000);
+    
         }
+     */
+    /*  autoLoginRenamed(): void {
+         const userData = localStorage.getItem('demoAppUserData');
+         if (!userData) {
+             return;
+         } else {
+             const loadedUser = JSON.parse(userData);
+             const user = new User(loadedUser.email, loadedUser.id, loadedUser._token, loadedUser._tokenExpirationDate);
+ 
+             if (user.token) {
+                 // this.userSubject.next(user);
+                 this.store.dispatch(new AuthActions.AuthSuccessAction({
+                     id: loadedUser.id, email: loadedUser.email,
+                     token: loadedUser._token, tokenExpirationDate: loadedUser._tokenExpirationDate
+                 }));
+                 const expDur = loadedUser._tokenExpirationDate.getTime() - new Date().getTime();
+                 this.autoLogout(expDur);
+             }
+         }
+ 
+     } */
 
-    }
-
-    isAuthenticated(): boolean {
+    /* isAuthenticated(): boolean {
         return true;
-    }
+    } */
 
-    logoutRenamed(): void {
+    /* logoutRenamed(): void {
         // this.userSubject.next(null);
         this.store.dispatch(new AuthActions.LogoutAction());
         this.router.navigate(['/auth']);
@@ -128,11 +129,19 @@ export class MyAuthService {
         if (this.tokenExpTimer) {
             clearTimeout(this.tokenExpTimer);
         }
-    }
+    } */
 
     autoLogout(expDuration: number): void {
         this.tokenExpTimer = setTimeout(() => {
-            this.logoutRenamed();
+            //       this.logoutRenamed();
+            this.store.dispatch(new AuthActions.LogoutAction());
+
         }, expDuration);
+    }
+
+    clearLogoutTimer() :void{
+        if (this.tokenExpTimer) {
+            this.tokenExpTimer = null;
+        }
     }
 }

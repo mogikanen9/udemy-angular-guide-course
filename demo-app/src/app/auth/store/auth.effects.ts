@@ -9,6 +9,7 @@ import { of } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from '../user.model';
+import { MyAuthService } from '../auth.service';
 
 const apiKey = environment.firebaseApiKey;
 
@@ -65,6 +66,8 @@ export class AuthEffects {
 
                         localStorage.setItem('demoAppUserData', JSON.stringify(user));
 
+                        this.authService.autoLogout(expirationDate.getTime() - new Date().getTime());
+
                         return new AuthActions.AuthSuccessAction({
                             email: responseData.email,
                             id: responseData.localId,
@@ -101,6 +104,8 @@ export class AuthEffects {
 
                         localStorage.setItem('demoAppUserData', JSON.stringify(user));
 
+                        this.authService.autoLogout(expirationDate.getTime() - new Date().getTime());
+
                         return new AuthActions.AuthSuccessAction({
                             email: responseData.email,
                             id: responseData.localId,
@@ -131,14 +136,14 @@ export class AuthEffects {
             const user = new User(loadedUser.email, loadedUser.id, loadedUser._token, loadedUser._tokenExpirationDate);
 
             if (user.token) {
-                // this.userSubject.next(user);
+
+                const expDur = loadedUser._tokenExpirationDate.getTime() - new Date().getTime();
+                this.authService.autoLogout(expDur);
+
                 return new AuthActions.AuthSuccessAction({
                     id: loadedUser.id, email: loadedUser.email,
                     token: loadedUser._token, tokenExpirationDate: loadedUser._tokenExpirationDate
                 });
-
-                /* const expDur = loadedUser._tokenExpirationDate.getTime() - new Date().getTime();
-                this.autoLogout(expDur); */
             }
 
             return { type: 'DEFAULT' };
@@ -146,6 +151,8 @@ export class AuthEffects {
         }
     }));
 
-    constructor(private actions$: Actions, private http: HttpClient, private router: Router) { }
+    constructor(
+        private actions$: Actions, private http: HttpClient, private router: Router,
+        private authService: MyAuthService) { }
 
 }
