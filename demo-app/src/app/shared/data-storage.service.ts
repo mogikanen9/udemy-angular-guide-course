@@ -12,6 +12,7 @@ const RECIPES_API_URL = 'https://recipe-demo-service.firebaseio.com/recipes.json
 
 import { Store } from '@ngrx/store';
 import * as fromApp from '../store/app.reducer';
+import * as RecipesActions from '../recipe/store/recipe.actions';
 
 
 @Injectable()
@@ -26,12 +27,18 @@ export class DataStorageService {
 
     saveRecepies(): void {
 
-        const recipes = this.recipeService.recipes;
+        //const recipes = this.recipeService.recipes;
 
-        this.http.put<{ name: string }>(RECIPES_API_URL,
-            recipes).subscribe((responseData) => {
-                this.loggingService.debug('saveRecepies#responseData->', responseData);
-            });
+
+        this.store.select('recipes').subscribe1111((recipesState) => {
+
+            this.http.put<{ name: string }>(RECIPES_API_URL,
+                recipesState.recipes).subscribe((responseData) => {
+                    this.loggingService.debug('saveRecepies#responseData->', responseData);
+                });
+        });
+
+
 
         /*this.authService.userSubject.pipe(take(1),
             exhaustMap((user) => {
@@ -69,7 +76,8 @@ export class DataStorageService {
                 return recepeArray;
             }),
             tap((recipes) => {
-                this.recipeService.updateAllRecipes(recipes);
+                 // this.recipeService.updateAllRecipes(recipes);
+                this.store.dispatch(new RecipesActions.UpdateAllRecipes(recipes));
             })
         );
 

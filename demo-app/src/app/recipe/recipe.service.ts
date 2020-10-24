@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Subject } from 'rxjs';
+import * as RecipeActions from '../recipe/store/recipe.actions';
 import { Ingredient } from '../shared/ingredient.model';
 import { LoggingService } from '../shared/logging.service';
 import * as ShoppingActions from '../shopping/store/shopping.actions';
@@ -11,7 +11,7 @@ import { Recipe } from './recipe.model';
 @Injectable()
 export class RecipeService {
 
-    private theRecipes: Recipe[] = [];
+    // private theRecipes: Recipe[] = [];
     /* private theRecipes = [
         new Recipe('q1', 'Baked shripms with rice',
             ' Simple Description ',
@@ -29,25 +29,27 @@ export class RecipeService {
             ])
     ];
  */
-    recipeUpdates = new Subject<Recipe[]>();
+    // recipeUpdates = new Subject<Recipe[]>();
 
-    constructor(        
+    constructor(
         private loggingService: LoggingService,
         private store: Store<AppState>) { }
 
-    get recipes(): Recipe[] {
-        return this.theRecipes.slice();
-    }
+    /* get recipes(): Recipe[] {
+        return this.theRecipes.slice();        
+    } */
 
     addRecipe(newRecipe: Recipe): void {
 
-        if (newRecipe && newRecipe.rid) {
+        /*  if (newRecipe && newRecipe.rid) {
+ 
+             this.theRecipes.push(Object.assign(newRecipe));
+             this.recipeUpdates.next(this.recipes);
+         } else {
+             throw new Error('newRecipe or newRecipe.rid cannot be undefined!');
+         } */
 
-            this.theRecipes.push(Object.assign(newRecipe));
-            this.recipeUpdates.next(this.recipes);
-        } else {
-            throw new Error('newRecipe or newRecipe.rid cannot be undefined!');
-        }
+        this.store.dispatch(new RecipeActions.AddRecipe(newRecipe));
     }
 
     addIngredientsToShoppingList(ingredients: Ingredient[]): void {
@@ -55,23 +57,25 @@ export class RecipeService {
         this.store.dispatch(new ShoppingActions.AddIngredients(ingredients));
     }
 
-    getRecipeById(id: string): Recipe {
+    /* getRecipeById(id: string): Recipe {        
         const rs = this.theRecipes.filter((recipe) => recipe.rid === id);
         if (rs.length > 0) {
             return Object.assign(rs[0]);
         } else {
             throw new Error(`getRecipeById. Recipe with id ${id} was not found!`);
         }
-    }
+    } */
 
     updateRecipe(updatedRecipe: Recipe): void {
-        const index = this.theRecipes.findIndex((rcp) => rcp.rid === updatedRecipe.rid);
+        /* const index = this.theRecipes.findIndex((rcp) => rcp.rid === updatedRecipe.rid);
         if (index !== -1) {
             this.theRecipes[index] = Object.assign(updatedRecipe);
             this.recipeUpdates.next(this.recipes);
         } else {
             throw new Error(`updateRecipe. Recipe with id ${updatedRecipe.rid} was not found!`);
-        }
+        } */
+
+        this.store.dispatch(new RecipeActions.UpdateRecipe(updatedRecipe));
     }
 
     genNewRecupeId(): string {
@@ -79,19 +83,22 @@ export class RecipeService {
     }
 
     deleteRecipe(recipe: Recipe): void {
-        const idx = this.theRecipes.map((e) => e.rid).indexOf(recipe.rid);
+        /* const idx = this.theRecipes.map((e) => e.rid).indexOf(recipe.rid);
         if (idx >= 0) {
             this.theRecipes.splice(idx, 1);
             this.recipeUpdates.next(this.recipes);
         } else {
             throw new Error(`Recipe with id '${recipe.rid}' was not found to be deleted!`);
-        }
+        } */
+        this.store.dispatch(new RecipeActions.DeleteRecipe(recipe));
     }
-
-    updateAllRecipes(recipes: Recipe[]): void {
-        this.loggingService.debug('updateAllRecipes called, recipes->', recipes);
-        this.theRecipes = recipes;
-        this.recipeUpdates.next(this.recipes);
-
-    }
+    /* 
+        updateAllRecipe(recipes: Recipe[]): void {
+            /* this.loggingService.debug('updateAllRecipes called, recipes->', recipes);
+            this.theRecipes = recipes;
+            this.recipeUpdates.next(this.recipes); 
+            
+            // this.store.dispatch(new RecipeActions.UpdateAllRecipes(recipes));
+    
+        } */
 }
