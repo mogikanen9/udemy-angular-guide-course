@@ -1,13 +1,10 @@
 import { Component, ComponentFactoryResolver, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { Subscription } from 'rxjs';
 import { AlertComponent } from '../shared/alert/alert/alert.component';
 import { LoggingService } from '../shared/logging.service';
 import { PlaceholderDirective } from '../shared/placeholder/placeholder.directive';
-import { AuthResponse } from './auth.model';
-import { MyAuthService } from './auth.service';
-import { Store } from '@ngrx/store';
 import * as fromApp from '../store/app.reducer';
 import * as AuthActions from './store/auth.actions';
 import { AuthState } from './store/auth.reducer';
@@ -30,8 +27,6 @@ export class AuthComponent implements OnInit, OnDestroy {
   private storeSub: Subscription;
 
   constructor(
-    // private authService: MyAuthService,
-    // private router: Router,
     private loggingService: LoggingService,
     private componentFactoryResolver: ComponentFactoryResolver,
     private store: Store<fromApp.AppState>) { }
@@ -69,30 +64,15 @@ export class AuthComponent implements OnInit, OnDestroy {
     const pwdValue = value.pwd;
 
     this.isLoading = true;
-    // this.error = null;
 
-    // let operation: Observable<AuthResponse>;
 
     if (this.isLoginMode) {
-      // operation = this.authService.signIn({ email: emailValue, password: pwdValue, returnSecureToken: true });
+
       this.store.dispatch(new AuthActions.LoginStartAction({ email: emailValue, password: pwdValue }));
     } else {
       this.store.dispatch(new AuthActions.SignupStartAction({ email: emailValue, password: pwdValue }));
-      // operation = this.authService.signUp({ email: emailValue, password: pwdValue, returnSecureToken: true });
+
     }
-
-    /* operation.subscribe(
-      (resp: AuthResponse) => {
-        this.loggingService.debug('resp->', resp);
-        this.isLoading = false;
-        this.router.navigate(['/recipes']);
-      }, (errorMessage) => {
-        // this.error = errorMessage;
-        this.isLoading = false;
-        this.showErrorAlert(errorMessage);
-      }); */
-
-
 
     authForm.reset();
   }
