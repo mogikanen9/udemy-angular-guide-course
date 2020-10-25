@@ -24,13 +24,13 @@ export class RecipeDetailComponent implements OnInit {
   ngOnInit(): void {
     this.activeRoute.params.subscribe((params: Params) => {
       const rid = params['id'];
-      if (rid) {        
+      if (rid) {
         this.store.select('recipes')
           .pipe(
             map((state) => state.recipes.find((value, index) => value.rid === rid))
-            ).subscribe( foundRecipe => {
-              this.recipe = foundRecipe;
-            });
+          ).subscribe(foundRecipe => {
+            this.recipe = foundRecipe;
+          });
       }
     });
   }

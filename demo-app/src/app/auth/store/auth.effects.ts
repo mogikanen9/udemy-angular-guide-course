@@ -72,7 +72,8 @@ export class AuthEffects {
                             email: responseData.email,
                             id: responseData.localId,
                             token: responseData.idToken,
-                            tokenExpirationDate: expirationDate
+                            tokenExpirationDate: expirationDate,
+                            redirect: true
                         });
                     }),
                     catchError(error => {
@@ -83,8 +84,11 @@ export class AuthEffects {
     );
 
     @Effect({ dispatch: false })
-    authRedirect = this.actions$.pipe(ofType(AuthActions.AUTH_SUCCESS), tap(() => {
-        this.router.navigate(['/']);
+    authRedirect = this.actions$.pipe(ofType(AuthActions.AUTH_SUCCESS), tap((authSuccessAction: AuthActions.AuthSuccessAction) => {
+        if (authSuccessAction.payload.redirect) {
+            this.router.navigate(['/']);
+        }
+
     }));
 
     @Effect()
@@ -110,7 +114,8 @@ export class AuthEffects {
                             email: responseData.email,
                             id: responseData.localId,
                             token: responseData.idToken,
-                            tokenExpirationDate: expirationDate
+                            tokenExpirationDate: expirationDate,
+                            redirect: true
                         });
                     }),
                     catchError(error => {
@@ -137,12 +142,13 @@ export class AuthEffects {
 
             if (user.token) {
 
-                const expDur = loadedUser._tokenExpirationDate.getTime() - new Date().getTime();
+                const expDur = (new Date(loadedUser._tokenExpirationDate)).getTime() - new Date().getTime();
                 this.authService.autoLogout(expDur);
 
                 return new AuthActions.AuthSuccessAction({
                     id: loadedUser.id, email: loadedUser.email,
-                    token: loadedUser._token, tokenExpirationDate: loadedUser._tokenExpirationDate
+                    token: loadedUser._token, tokenExpirationDate: loadedUser._tokenExpirationDate,
+                    redirect: false
                 });
             }
 

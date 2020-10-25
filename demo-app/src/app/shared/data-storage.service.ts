@@ -30,7 +30,7 @@ export class DataStorageService {
         //const recipes = this.recipeService.recipes;
 
 
-        this.store.select('recipes').subscribe1111((recipesState) => {
+        this.store.select('recipes').subscribe((recipesState) => {
 
             this.http.put<{ name: string }>(RECIPES_API_URL,
                 recipesState.recipes).subscribe((responseData) => {
@@ -52,7 +52,7 @@ export class DataStorageService {
         });*/
     }
 
-    fetchRecipes(): Observable<Recipe[]> {
+    private fetchRecipes(): Observable<Recipe[]> {
 
         /**
          * Not really needed since the code to add user token was added to AuthInterceptrService and

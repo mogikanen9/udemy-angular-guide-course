@@ -8,6 +8,7 @@ import { AboutComponent } from './about/about.component';
 import { Store } from '@ngrx/store';
 import * as fromApp from '../store/app.reducer';
 import { LogoutAction } from '../auth/store/auth.actions';
+import { FetchAllRecipes } from '../recipe/store/recipe.actions';
 
 
 @Component({
@@ -48,7 +49,8 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onFetchClick(): void {
-    this.dataStorageService.fetchRecipes().subscribe();
+    // this.dataStorageService.fetchRecipes().subscribe();
+    this.store.dispatch(new FetchAllRecipes());
   }
 
   onSaveClick(): void {
@@ -56,7 +58,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onLogout(): void {
-    //this.authService.logout();
+    // this.authService.logout();
     this.store.dispatch(new LogoutAction());
   }
 
