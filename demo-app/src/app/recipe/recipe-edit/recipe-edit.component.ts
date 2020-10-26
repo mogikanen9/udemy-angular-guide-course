@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -7,23 +7,32 @@ import { AppState } from 'src/app/store/app.reducer';
 import { Recipe } from '../recipe.model';
 import { RecipeService } from '../recipe.service';
 import { map } from 'rxjs/operators';
+import * as RecipeActions from '../store/recipe.actions';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-recipe-edit',
   templateUrl: './recipe-edit.component.html',
   styleUrls: ['./recipe-edit.component.css']
 })
-export class RecipeEditComponent implements OnInit {
+export class RecipeEditComponent implements OnInit, OnDestroy {
 
   id: string;
   editMode = false;
   recipeForm: FormGroup;
+  recipeStoreSub: Subscription;
 
   constructor(
     private activeRoute: ActivatedRoute,
     private recipeService: RecipeService,
     private router: Router,
     private store: Store<AppState>) { }
+
+  ngOnDestroy(): void {
+    if (this.recipeStoreSub) {
+      this.recipeStoreSub.unsubscribe();
+    }
+  }
 
   ngOnInit(): void {
 
@@ -49,7 +58,7 @@ export class RecipeEditComponent implements OnInit {
 
     if (this.editMode) {
 
-      this.store.select('recipes').pipe(
+      this.recipeStoreSub = this.store.select('recipes').pipe(
         map(
           (state) => state.recipes.find((value, index) => value.rid === this.id)
         )
@@ -109,10 +118,13 @@ export class RecipeEditComponent implements OnInit {
     }).forEach((ingItem) => ingredients.push(ingItem));
 
     if (this.editMode) {
-      this.recipeService.updateRecipe(new Recipe(this.id, name, description, imgPath, ingredients));
+      const updatedRecipe = new Recipe(this.id, name, description, imgPath, ingredients);
+      this.store.dispatch(new RecipeActions.UpdateRecipe(updatedRecipe));
       this.router.navigate(['/recipes', this.id]);
     } else {
-      this.recipeService.addRecipe(new Recipe(this.recipeService.genNewRecupeId(), name, description, imgPath, ingredients));
+
+      const newRecipe = new Recipe(this.recipeService.genNewRecupeId(), name, description, imgPath, ingredients);
+      this.store.dispatch(new RecipeActions.AddRecipe(newRecipe));
       this.router.navigate(['/recipes']);
     }
 

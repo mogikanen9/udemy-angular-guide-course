@@ -1,14 +1,13 @@
 import { AfterViewInit, Component, ComponentFactoryResolver, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { MyAuthService } from '../auth/auth.service';
-import { DataStorageService } from '../shared/data-storage.service';
-import { PlaceholderDirective } from '../shared/placeholder/placeholder.directive';
-import { AboutComponent } from './about/about.component';
-import { Store } from '@ngrx/store';
-import * as fromApp from '../store/app.reducer';
 import { LogoutAction } from '../auth/store/auth.actions';
 import { FetchAllRecipes } from '../recipe/store/recipe.actions';
+import { DataStorageService } from '../shared/data-storage.service';
+import { PlaceholderDirective } from '../shared/placeholder/placeholder.directive';
+import * as fromApp from '../store/app.reducer';
+import { AboutComponent } from './about/about.component';
 
 
 @Component({
@@ -26,8 +25,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   private aboutSub: Subscription;
 
   constructor(
-    private dataStorageService: DataStorageService, private authService: MyAuthService,
-    // tslint:disable-next-line:align
+    private dataStorageService: DataStorageService,
     private componentFactoryResolver: ComponentFactoryResolver,
     private store: Store<fromApp.AppState>) { }
 
@@ -43,13 +41,9 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     this.store.select('auth').pipe(map(userState => userState.user)).subscribe(user => {
       this.isAuthenticated = (user && user != null);
     });
-    /* this.userSub = this.authService.userSubject.subscribe(user => {
-      this.isAuthenticated = (user && user != null);
-    }); */
   }
 
   onFetchClick(): void {
-    // this.dataStorageService.fetchRecipes().subscribe();
     this.store.dispatch(new FetchAllRecipes());
   }
 
@@ -58,7 +52,6 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onLogout(): void {
-    // this.authService.logout();
     this.store.dispatch(new LogoutAction());
   }
 

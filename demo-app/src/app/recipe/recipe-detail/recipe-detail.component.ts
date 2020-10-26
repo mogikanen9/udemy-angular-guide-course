@@ -5,6 +5,7 @@ import { AppState } from 'src/app/store/app.reducer';
 import { Recipe } from '../recipe.model';
 import { RecipeService } from '../recipe.service';
 import { map } from 'rxjs/operators';
+import * as RecipeActions from '../store/recipe.actions';
 
 @Component({
   selector: 'app-recipe-detail',
@@ -38,7 +39,7 @@ export class RecipeDetailComponent implements OnInit {
   addToShoppingList(): void {
     if (this.recipe) {
       this.recipeService.addIngredientsToShoppingList(this.recipe.ingredients);
-      //this.router.navigate(['/shopping-list']);
+      // this.router.navigate(['/shopping-list']);
     } else {
       throw new Error('Recipe is empty/null/undefined!');
     }
@@ -50,7 +51,7 @@ export class RecipeDetailComponent implements OnInit {
 
   onDeleteRecipeClick(): void {
     if (this.recipe) {
-      this.recipeService.deleteRecipe(this.recipe);
+      this.store.dispatch(new RecipeActions.DeleteRecipe(this.recipe));
       this.router.navigate(['/recipes']);
     }
   }

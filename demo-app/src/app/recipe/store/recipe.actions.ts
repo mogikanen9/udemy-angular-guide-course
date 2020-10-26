@@ -6,7 +6,6 @@ export const RECIPE_ADD = '[Recipe] RECIPE_ADD';
 export const RECIPE_DELETE = '[Recipe] RECIPE_DELETE';
 export const RECIPE_UPDATE = '[Recipe] RECIPE_UPDATE';
 export const RECIPE_UPDATE_ALL = '[Recipe] RECIPE_UPDATE_ALL';
-
 export const RECIPE_FETCH_ALL = '[Recipe] RECIPE_FETCH_ALL';
 
 export class AddRecipe implements Action {
@@ -32,5 +31,6 @@ export class UpdateAllRecipes implements Action {
 export class FetchAllRecipes implements Action {
     readonly type = RECIPE_FETCH_ALL;
 }
+
 
 export type RecipeActions = AddRecipe | DeleteRecipe | UpdateRecipe | UpdateAllRecipes | FetchAllRecipes;
