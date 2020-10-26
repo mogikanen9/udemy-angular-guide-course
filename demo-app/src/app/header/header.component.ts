@@ -3,8 +3,7 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { LogoutAction } from '../auth/store/auth.actions';
-import { FetchAllRecipes } from '../recipe/store/recipe.actions';
-import { DataStorageService } from '../shared/data-storage.service';
+import { FetchAllRecipes, StoreAllRecipes } from '../recipe/store/recipe.actions';
 import { PlaceholderDirective } from '../shared/placeholder/placeholder.directive';
 import * as fromApp from '../store/app.reducer';
 import { AboutComponent } from './about/about.component';
@@ -25,7 +24,6 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   private aboutSub: Subscription;
 
   constructor(
-    private dataStorageService: DataStorageService,
     private componentFactoryResolver: ComponentFactoryResolver,
     private store: Store<fromApp.AppState>) { }
 
@@ -48,7 +46,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onSaveClick(): void {
-    this.dataStorageService.saveRecepies();
+    this.store.dispatch(new StoreAllRecipes());
   }
 
   onLogout(): void {
